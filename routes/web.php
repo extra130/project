@@ -33,7 +33,13 @@ Route::middleware(['auth'])->group(function () {
 
     // ---------- Projects (Task 02) ----------
     Route::resource('projects', ProjectController::class)->except(['destroy']);
-    
+    Route::post('projects/{project}/archive', [ProjectController::class, 'archive'])->name('projects.archive');
+
+    // ---------- Project Files ----------
+    Route::post('/projects/{project}/files', [\App\Http\Controllers\ProjectFileController::class, 'store'])->name('project-files.store');
+    Route::get('/project-files/{projectFile}/download', [\App\Http\Controllers\ProjectFileController::class, 'download'])->name('project-files.download');
+    Route::delete('/project-files/{projectFile}', [\App\Http\Controllers\ProjectFileController::class, 'destroy'])->name('project-files.destroy');
+
     // AJAX 端點：取得專案的模組列表 (前端動態選單使用)
     Route::get('ajax/projects/{project}/modules', [ProjectController::class, 'getModulesJson'])
         ->name('ajax.projects.modules');

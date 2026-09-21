@@ -29,6 +29,11 @@ class Project extends Model
         return $this->hasMany(Record::class);
     }
 
+    public function files(): HasMany
+    {
+        return $this->hasMany(ProjectFile::class)->orderBy('sort_order');
+    }
+
     // ---------- Scopes ----------
 
     public function scopeActive($query)

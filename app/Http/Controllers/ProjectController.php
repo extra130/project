@@ -55,7 +55,11 @@ class ProjectController extends Controller
      */
     public function show(Project $project)
     {
-        $project->load('modules');
+        $project->load(['modules' => function ($query) {
+            $query->orderBy('sort_order');
+        }, 'files' => function ($query) {
+            $query->orderBy('sort_order');
+        }]);
 
         return view('projects.show', [
             'project'        => $project,
