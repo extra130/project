@@ -46,6 +46,11 @@
                           {{ request()->routeIs('records.index') ? 'bg-indigo-50 text-indigo-700 font-medium' : 'text-gray-700' }}">
                     <span class="mr-2">📄</span> 所有紀錄
                 </a>
+                <a href="{{ route('calendar.index') }}"
+                   class="flex items-center px-2 py-1.5 rounded hover:bg-gray-100
+                          {{ request()->routeIs('calendar.index') ? 'bg-indigo-50 text-indigo-700 font-medium' : 'text-gray-700' }}">
+                    <span class="mr-2">📅</span> 行事曆
+                </a>
                 @if(Auth::user()->isEditor())
                     <a href="{{ route('records.create') }}"
                        class="flex items-center px-2 py-1.5 rounded hover:bg-gray-100

@@ -1,7 +1,12 @@
 {{-- Records index - spec §16 UI, Task 04+05 --}}
 <x-records-layout title="紀錄列表">
     <x-slot name="header">
-        <h2 class="text-xl font-semibold">紀錄列表</h2>
+        <div class="flex items-center justify-between">
+            <h2 class="text-xl font-semibold">紀錄列表</h2>
+            <a href="{{ route('calendar.index') }}" class="text-sm bg-white border border-gray-300 text-gray-700 px-3 py-1.5 rounded hover:bg-gray-50 flex items-center">
+                <span class="mr-1">📅</span> 切換月曆模式
+            </a>
+        </div>
     </x-slot>
 
     {{-- ========== Search / Filter bar ========== --}}

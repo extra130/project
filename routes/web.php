@@ -25,6 +25,9 @@ Route::middleware(['auth'])->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
+    // ---------- Calendar ----------
+    Route::get('/calendar', [\App\Http\Controllers\CalendarController::class, 'index'])->name('calendar.index');
+
     // ---------- Projects (Task 02) ----------
     Route::resource('projects', ProjectController::class)->except(['destroy']);
     
