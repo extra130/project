@@ -24,6 +24,7 @@ class Record extends Model
         'title',
         'content',
         'source',
+        'ai_tool',
         'git_branch',
         'git_commit',
         'created_by',

@@ -155,12 +155,20 @@
                                 {{ $typeLabels[$record->type] ?? $record->type }}
                             </span>
 
-                            {{-- Source --}}
-                            @if($record->source !== 'manual')
-                                <span class="text-xs px-2 py-0.5 rounded bg-yellow-50 text-yellow-700">
-                                    {{ strtoupper($record->source) }}
-                                </span>
-                            @endif
+                            {{-- Source / AI --}}
+                            <div class="flex items-center space-x-1">
+                                @if($record->source !== 'manual')
+                                    <span class="text-xs px-2 py-0.5 rounded bg-yellow-50 text-yellow-700 border border-yellow-100">
+                                        {{ strtoupper($record->source) }}
+                                    </span>
+                                @endif
+                                
+                                @if($record->ai_tool)
+                                    <span class="text-xs px-1.5 py-0.5 rounded bg-purple-50 text-purple-700 border border-purple-100 flex items-center">
+                                        🤖 {{ $record->ai_tool }}
+                                    </span>
+                                @endif
+                            </div>
                         </div>
 
                         <a href="{{ route('records.show', $record) }}"

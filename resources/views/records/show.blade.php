@@ -63,6 +63,17 @@
                         <code class="bg-gray-100 px-1 py-0.5 rounded text-xs">{{ $record->git_commit }}</code>
                     </div>
                 @endif
+                <div>
+                    <span class="text-gray-400">來源：</span>
+                    <span class="font-medium text-gray-800">
+                        {{ ['manual'=>'人工','codex'=>'Codex','agent'=>'Agent','api'=>'API'][$record->source] ?? $record->source }}
+                        @if($record->ai_tool)
+                            <span class="text-xs ml-1 px-1.5 py-0.5 bg-purple-100 text-purple-700 rounded border border-purple-200">
+                                🤖 {{ $record->ai_tool }}
+                            </span>
+                        @endif
+                    </span>
+                </div>
                 
                 @if($record->tags->count() > 0)
                     <div class="col-span-2 mt-2 pt-3 border-t border-gray-100">
