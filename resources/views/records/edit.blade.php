@@ -52,15 +52,8 @@
                 {{-- AI Tool --}}
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">使用 AI</label>
-                    <input list="ai_tools_edit" name="ai_tool" value="{{ old('ai_tool', $record->ai_tool) }}"
+                    <input type="text" name="ai_tool" value="{{ old('ai_tool', $record->ai_tool) }}"
                            class="w-full border border-gray-300 rounded px-3 py-2 text-sm" placeholder="例如：ChatGPT, Gemini">
-                    <datalist id="ai_tools_edit">
-                        <option value="ChatGPT"></option>
-                        <option value="Claude"></option>
-                        <option value="Gemini"></option>
-                        <option value="Antigravity"></option>
-                        <option value="GitHub Copilot"></option>
-                    </datalist>
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Git Branch</label>
