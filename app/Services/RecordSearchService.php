@@ -28,7 +28,7 @@ class RecordSearchService
      */
     public function search(array $filters): Builder
     {
-        $query = Record::with(['project', 'module', 'files'])
+        $query = Record::with(['project', 'module', 'files', 'tags'])
             ->orderByDesc('created_at');
 
         if (!empty($filters['project_id'])) {
