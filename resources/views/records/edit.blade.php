@@ -1,0 +1,81 @@
+<x-records-layout :title="'編輯紀錄：' . $record->title">
+    <x-slot name="header">
+        <h2 class="text-xl font-semibold">編輯紀錄</h2>
+    </x-slot>
+
+    <div class="bg-white rounded shadow-sm p-6 max-w-3xl">
+        <form method="POST" action="{{ route('records.update', $record) }}">
+            @csrf
+            @method('PUT')
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">專案 *</label>
+                    <select name="project_id" required class="w-full border border-gray-300 rounded px-3 py-2 text-sm">
+                        @foreach($projects as $p)
+                            <option value="{{ $p->id }}" {{ old('project_id',$record->project_id)==$p->id?'selected':'' }}>
+                                {{ $p->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">模組</label>
+                    <select name="module_id" class="w-full border border-gray-300 rounded px-3 py-2 text-sm">
+                        <option value="">— 不指定 —</option>
+                        @foreach($modules as $m)
+                            <option value="{{ $m->id }}" {{ old('module_id',$record->module_id)==$m->id?'selected':'' }}>
+                                {{ $m->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">類型 *</label>
+                    <select name="type" required class="w-full border border-gray-300 rounded px-3 py-2 text-sm">
+                        @foreach(['development'=>'開發紀錄','test'=>'測試紀錄','issue'=>'問題紀錄','note'=>'人工備註'] as $val=>$label)
+                            <option value="{{ $val }}" {{ old('type',$record->type)===$val?'selected':'' }}>{{ $label }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">來源 *</label>
+                    <select name="source" required class="w-full border border-gray-300 rounded px-3 py-2 text-sm">
+                        @foreach(['manual'=>'人工','codex'=>'Codex','agent'=>'Agent','api'=>'API'] as $val=>$label)
+                            <option value="{{ $val }}" {{ old('source',$record->source)===$val?'selected':'' }}>{{ $label }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Git Branch</label>
+                    <input type="text" name="git_branch" value="{{ old('git_branch',$record->git_branch) }}"
+                           class="w-full border border-gray-300 rounded px-3 py-2 text-sm">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Git Commit</label>
+                    <input type="text" name="git_commit" value="{{ old('git_commit',$record->git_commit) }}"
+                           class="w-full border border-gray-300 rounded px-3 py-2 text-sm">
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700 mb-1">標題 *</label>
+                <input type="text" name="title" value="{{ old('title',$record->title) }}"
+                       class="w-full border border-gray-300 rounded px-3 py-2 text-sm" required maxlength="255">
+            </div>
+
+            <div class="mb-6">
+                <label class="block text-sm font-medium text-gray-700 mb-1">內容 *</label>
+                <textarea name="content" rows="12" required
+                          class="w-full border border-gray-300 rounded px-3 py-2 text-sm font-mono">{{ old('content',$record->content) }}</textarea>
+            </div>
+
+            <div class="flex items-center space-x-3">
+                <button type="submit" class="bg-indigo-600 text-white px-5 py-2 rounded text-sm hover:bg-indigo-700">
+                    儲存
+                </button>
+                <a href="{{ route('records.show', $record) }}" class="text-gray-500 text-sm hover:underline">取消</a>
+            </div>
+        </form>
+    </div>
+</x-records-layout>
