@@ -45,4 +45,9 @@ class Record extends Model
     {
         return $this->hasMany(RecordFile::class)->orderBy('sort_order');
     }
+
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class);
+    }
 }

@@ -51,10 +51,18 @@
                     <input type="text" name="git_branch" value="{{ old('git_branch',$record->git_branch) }}"
                            class="w-full border border-gray-300 rounded px-3 py-2 text-sm">
                 </div>
+                {{-- Git Commit --}}
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1">Git Commit</label>
-                    <input type="text" name="git_commit" value="{{ old('git_commit',$record->git_commit) }}"
-                           class="w-full border border-gray-300 rounded px-3 py-2 text-sm">
+                    <input type="text" name="git_commit" value="{{ old('git_commit', $record->git_commit) }}"
+                           class="w-full border border-gray-300 rounded px-3 py-2 text-sm" placeholder="abc123">
+                </div>
+
+                {{-- Tags --}}
+                <div class="sm:col-span-2">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">標籤 (Tags)</label>
+                    <input type="text" name="tags_input" value="{{ old('tags_input', $tagsString ?? '') }}"
+                           class="w-full border border-gray-300 rounded px-3 py-2 text-sm" placeholder="API, 資安, 資料庫優化 (多個請用逗號分隔)">
                 </div>
             </div>
 

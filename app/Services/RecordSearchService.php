@@ -55,6 +55,12 @@ class RecordSearchService
             $query->whereDate('created_at', '<=', $filters['date_to']);
         }
 
+        if (!empty($filters['tag'])) {
+            $query->whereHas('tags', function (Builder $q) use ($filters) {
+                $q->where('name', $filters['tag']);
+            });
+        }
+
         if (!empty($filters['keyword'])) {
             $kw = $filters['keyword'];
 

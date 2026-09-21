@@ -32,16 +32,16 @@ class Task13UiTest extends TestCase
     public function root_redirects_to_records_when_authenticated(): void
     {
         $response = $this->actingAs($this->viewer)->get('/');
-        $response->assertRedirect('/records');
+        $response->assertRedirect('/dashboard');
     }
 
     /** @test */
     public function root_redirects_to_login_when_unauthenticated(): void
     {
-        // / → records → auth 攔截 → login
+        // / → dashboard → auth 攔截 → login
         $response = $this->get('/');
-        // 先重導到 /records
-        $response->assertRedirect('/records');
+        // 先重導到 /dashboard
+        $response->assertRedirect('/dashboard');
     }
 
     /** @test */

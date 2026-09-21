@@ -63,6 +63,20 @@
                         <code class="bg-gray-100 px-1 py-0.5 rounded text-xs">{{ $record->git_commit }}</code>
                     </div>
                 @endif
+                
+                @if($record->tags->count() > 0)
+                    <div class="col-span-2 mt-2 pt-3 border-t border-gray-100">
+                        <span class="text-gray-400 mr-2">標籤：</span>
+                        <div class="inline-flex flex-wrap gap-2">
+                            @foreach($record->tags as $tag)
+                                <a href="{{ route('records.index', ['tag' => $tag->name]) }}" 
+                                   class="bg-indigo-50 text-indigo-600 px-2 py-0.5 rounded text-xs hover:bg-indigo-100 hover:underline">
+                                    #{{ $tag->name }}
+                                </a>
+                            @endforeach
+                        </div>
+                    </div>
+                @endif
             </div>
 
             {{-- Content (Markdown 渲染) --}}

@@ -11,6 +11,15 @@
 
     {{-- ========== Search / Filter bar ========== --}}
     <form method="GET" action="{{ route('records.index') }}" class="bg-white rounded shadow-sm p-4 mb-6">
+        @if(!empty($filters['tag']))
+            <input type="hidden" name="tag" value="{{ $filters['tag'] }}">
+            <div class="mb-3 flex items-center">
+                <span class="text-sm text-gray-500 mr-2">標籤篩選：</span>
+                <span class="bg-indigo-100 text-indigo-700 px-2 py-1 rounded text-sm font-medium">#{{ $filters['tag'] }}</span>
+                <a href="{{ route('records.index', \Illuminate\Support\Arr::except($filters, ['tag'])) }}" class="ml-2 text-red-500 hover:text-red-700 text-xs">✕ 移除篩選</a>
+            </div>
+        @endif
+
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
 
             {{-- Keyword --}}
@@ -169,6 +178,16 @@
                                 <span>📎 {{ $record->files->count() }} 個附件</span>
                             @endif
                         </div>
+                        
+                        @if($record->tags->count() > 0)
+                            <div class="mt-2 flex flex-wrap gap-1">
+                                @foreach($record->tags as $tag)
+                                    <span class="bg-gray-100 text-gray-500 px-1.5 py-0.5 rounded text-[10px]">
+                                        #{{ $tag->name }}
+                                    </span>
+                                @endforeach
+                            </div>
+                        @endif
                     </div>
 
                     <div class="flex items-center space-x-2 ml-4">

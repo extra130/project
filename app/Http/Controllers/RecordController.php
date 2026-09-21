@@ -78,6 +78,7 @@ class RecordController extends Controller
         $recordData['created_by'] = Auth::id();
 
         $record = Record::create($recordData);
+        $this->syncTags($record, $request->input('tags_input'));
 
         // 如果有夾帶檔案，直接呼叫 RecordFileService 儲存
         if ($request->hasFile('files')) {
@@ -97,7 +98,7 @@ class RecordController extends Controller
      */
     public function show(Record $record)
     {
-        $record->load(['project', 'module', 'files']);
+        $record->load(['project', 'module', 'files', 'tags']);
 
         return view('records.show', compact('record'));
     }
@@ -112,8 +113,10 @@ class RecordController extends Controller
         $projects = Project::orderBy('name')->get();
         $modules  = Module::where('project_id', $record->project_id)
             ->orderBy('sort_order')->get();
+            
+        $tagsString = $record->tags->pluck('name')->implode(', ');
 
-        return view('records.edit', compact('record', 'projects', 'modules'));
+        return view('records.edit', compact('record', 'projects', 'modules', 'tagsString'));
     }
 
     /**
@@ -132,12 +135,41 @@ class RecordController extends Controller
             'source'     => 'required|in:manual,codex,agent,api',
             'git_branch' => 'nullable|string|max:255',
             'git_commit' => 'nullable|string|max:100',
+            'tags_input' => 'nullable|string|max:255',
         ]);
 
-        $record->update($validated);
+        $recordData = collect($validated)->except('tags_input')->toArray();
+        $record->update($recordData);
+
+        $this->syncTags($record, $request->input('tags_input'));
 
         return redirect()->route('records.show', $record)
             ->with('success', '紀錄已更新。');
     }
 
+    // ---------- helper ----------
+
+    /**
+     * 處理並同步標籤
+     */
+    private function syncTags(Record $record, ?string $tagsInput): void
+    {
+        if (!$tagsInput) {
+            $record->tags()->sync([]);
+            return;
+        }
+
+        // 以逗號分隔，去除空白
+        $tagNames = collect(explode(',', $tagsInput))
+            ->map(fn($name) => trim($name))
+            ->filter(fn($name) => $name !== '');
+
+        $tagIds = [];
+        foreach ($tagNames as $name) {
+            $tag = \App\Models\Tag::firstOrCreate(['name' => $name]);
+            $tagIds[] = $tag->id;
+        }
+
+        $record->tags()->sync($tagIds);
+    }
 }
