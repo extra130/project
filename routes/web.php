@@ -13,12 +13,14 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------
 */
 
-// 未登入時 middleware 會導到 /login；登入後 HOME='/records'
+// 未登入時 middleware 會導到 /login；登入後跳轉到儀表板
 Route::get('/', function () {
-    return redirect()->route('records.index');
+    return redirect()->route('dashboard');
 });
 
 Route::middleware(['auth'])->group(function () {
+    // ---------- Dashboard ----------
+    Route::get('/dashboard', [\App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
 
     // ---------- Profile (Breeze) ----------
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

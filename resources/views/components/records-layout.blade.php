@@ -40,6 +40,16 @@
         {{-- 導覽選單 --}}
         <nav class="flex-1 px-2 py-3 space-y-0.5 text-sm">
 
+            {{-- 儀表板 --}}
+            <div class="mb-1">
+                <div class="px-2 py-1 text-xs font-semibold text-gray-400 uppercase tracking-wider">概覽</div>
+                <a href="{{ route('dashboard') }}"
+                   class="flex items-center px-2 py-1.5 rounded hover:bg-gray-100
+                          {{ request()->routeIs('dashboard') ? 'bg-indigo-50 text-indigo-700 font-medium' : 'text-gray-700' }}">
+                    <span class="mr-2">📊</span> 儀表板
+                </a>
+            </div>
+
             {{-- 紀錄 --}}
             <div class="mb-1">
                 <div class="px-2 py-1 text-xs font-semibold text-gray-400 uppercase tracking-wider">紀錄</div>
