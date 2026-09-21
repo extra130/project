@@ -65,10 +65,12 @@
                 @endif
             </div>
 
-            {{-- Content --}}
-            <div class="bg-white rounded shadow-sm p-4">
-                <h3 class="text-sm font-medium text-gray-500 mb-3">內容</h3>
-                <div class="whitespace-pre-wrap text-sm text-gray-700 leading-relaxed">{{ $record->content }}</div>
+            {{-- Content (Markdown 渲染) --}}
+            <div class="bg-white rounded shadow-sm p-6">
+                <h3 class="text-sm font-medium text-gray-500 mb-4 border-b pb-2">內容</h3>
+                <div class="prose max-w-none prose-sm prose-indigo prose-pre:bg-gray-800 prose-pre:text-gray-100">
+                    {!! Str::markdown($record->content, ['html_input' => 'escape']) !!}
+                </div>
             </div>
         </div>
 
@@ -152,3 +154,12 @@
         </div>
     </div>
 </x-records-layout>
+
+@push('styles')
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+@endpush
+
+@push('scripts')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script>hljs.highlightAll();</script>
+@endpush
