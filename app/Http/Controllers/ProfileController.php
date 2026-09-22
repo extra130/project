@@ -44,6 +44,9 @@ class ProfileController extends Controller
     {
         $request->validateWithBag('userDeletion', [
             'password' => ['required', 'current_password'],
+        ], [
+            'password.required' => '請輸入密碼以確認刪除。',
+            'password.current_password' => '您輸入的密碼不正確。',
         ]);
 
         $user = $request->user();
