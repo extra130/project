@@ -187,7 +187,26 @@
                             @endif
                             <span class="text-xs text-gray-400 ml-2">{{ $record->created_at->format('Y/m/d') }}</span>
                             @if($record->files->count() > 0)
-                                <span class="text-xs text-gray-400">📎 {{ $record->files->count() }} 個附件</span>
+                                <button type="button" 
+                                        @click="$dispatch('open-attachments', {
+                                            title: '{{ addslashes($record->title) }}',
+                                            files: [
+                                                @foreach($record->files as $file)
+                                                {
+                                                    id: {{ $file->id }},
+                                                    name: '{{ addslashes($file->display_name) }}',
+                                                    ext: '{{ strtolower($file->extension) }}',
+                                                    size: '{{ number_format($file->file_size / 1024, 1) }} KB',
+                                                    download_url: '{{ route('record-files.download', $file) }}',
+                                                    preview_url: '{{ route('record-files.preview', $file) }}',
+                                                    previewable: {{ in_array(strtolower($file->extension), ['pdf', 'html', 'htm', 'md', 'markdown', 'jpg', 'jpeg', 'png', 'gif']) ? 'true' : 'false' }}
+                                                },
+                                                @endforeach
+                                            ]
+                                        })"
+                                        class="text-xs text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded hover:bg-indigo-100 hover:underline">
+                                    📎 {{ $record->files->count() }} 個附件
+                                </button>
                             @endif
                         </div>
                         
@@ -225,5 +244,70 @@
     {{-- Pagination --}}
     <div class="mt-6">
         {{ $records->links() }}
+    </div>
+
+    {{-- Attachment Modal --}}
+    <div x-data="{
+             isOpen: false,
+             title: '',
+             files: []
+         }"
+         @open-attachments.window="
+             title = $event.detail.title;
+             files = $event.detail.files;
+             isOpen = true;
+         "
+         x-show="isOpen"
+         class="fixed inset-0 z-50 overflow-y-auto"
+         style="display: none;">
+         
+        <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:p-0">
+            <div x-show="isOpen" 
+                 x-transition.opacity
+                 class="fixed inset-0 transition-opacity bg-gray-500 bg-opacity-75" 
+                 @click="isOpen = false"></div>
+
+            <div x-show="isOpen"
+                 x-transition
+                 class="relative inline-block px-4 pt-5 pb-4 overflow-hidden text-left align-bottom transition-all transform bg-white rounded-lg shadow-xl sm:my-8 sm:align-middle sm:max-w-2xl sm:w-full sm:p-6">
+                
+                <div class="flex justify-between items-start mb-5">
+                    <h3 class="text-lg font-medium leading-6 text-gray-900 truncate pr-4" x-text="'附件清單：' + title"></h3>
+                    <button @click="isOpen = false" class="text-gray-400 hover:text-gray-500">
+                        <span class="text-2xl">&times;</span>
+                    </button>
+                </div>
+
+                <div class="space-y-3 max-h-[60vh] overflow-y-auto pr-2">
+                    <template x-for="file in files" :key="file.id">
+                        <div class="flex items-center justify-between p-3 border border-gray-100 rounded bg-gray-50 hover:bg-gray-100">
+                            <div class="flex items-center flex-1 min-w-0">
+                                <span class="text-xl mr-3" x-text="file.ext === 'pdf' ? '📄' : (file.ext === 'md' ? '📝' : '📎')"></span>
+                                <div class="truncate">
+                                    <div class="text-sm font-medium text-gray-900 truncate" x-text="file.name + '.' + file.ext"></div>
+                                    <div class="text-xs text-gray-500" x-text="file.size"></div>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-2 ml-4">
+                                <template x-if="file.previewable">
+                                    <a :href="file.preview_url" 
+                                       target="_blank"
+                                       class="px-3 py-1.5 text-xs font-medium text-indigo-600 bg-indigo-50 border border-indigo-200 rounded hover:bg-indigo-100">
+                                        線上預覽
+                                    </a>
+                                </template>
+                                <a :href="file.download_url"
+                                   class="px-3 py-1.5 text-xs font-medium text-white bg-indigo-600 rounded hover:bg-indigo-700">
+                                    下載
+                                </a>
+                            </div>
+                        </div>
+                    </template>
+                    <template x-if="files.length === 0">
+                        <p class="text-sm text-center text-gray-500">無附件</p>
+                    </template>
+                </div>
+            </div>
+        </div>
     </div>
 </x-records-layout>

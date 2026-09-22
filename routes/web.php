@@ -66,6 +66,8 @@ Route::middleware(['auth'])->group(function () {
         ->name('record-files.edit');
     Route::put('record-files/{recordFile}', [RecordFileController::class, 'update'])
         ->name('record-files.update');
+    Route::get('record-files/{recordFile}/preview', [RecordFileController::class, 'preview'])
+        ->name('record-files.preview');
     Route::get('record-files/{recordFile}/download', [RecordFileController::class, 'download'])
         ->name('record-files.download');
     Route::delete('record-files/{recordFile}', [RecordFileController::class, 'destroy'])

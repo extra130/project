@@ -98,6 +98,39 @@ class RecordFileController extends Controller
     }
 
     /**
+     * Preview file online (PDF, HTML, MD, etc.)
+     * GET /record-files/{id}/preview
+     */
+    public function preview(RecordFile $recordFile)
+    {
+        if (!Auth::user()->isViewer()) {
+            abort(403);
+        }
+
+        $absolutePath = $this->fileService->absolutePath($recordFile);
+
+        if ($absolutePath === null) {
+            abort(404, '檔案不存在。');
+        }
+
+        $ext = strtolower($recordFile->extension);
+
+        // Markdown: Render as HTML view
+        if (in_array($ext, ['md', 'markdown'])) {
+            $content = file_get_contents($absolutePath);
+            return view('record_files.preview-md', compact('recordFile', 'content'));
+        }
+
+        // Other supported preview formats: inline file response
+        $mime = $recordFile->mime_type ?? mime_content_type($absolutePath);
+        
+        return response()->file($absolutePath, [
+            'Content-Type' => $mime,
+            'Content-Disposition' => 'inline; filename="' . $recordFile->display_name . '.' . $ext . '"'
+        ]);
+    }
+
+    /**
      * Task 08: Delete a file (DB + physical).
      * DELETE /record-files/{id}
      */
