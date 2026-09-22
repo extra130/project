@@ -27,7 +27,7 @@ class RecordController extends Controller
 
         $records = $this->searchService->search($filters)->paginate(20)->withQueryString();
 
-        $projects = Project::orderBy('name')->get();
+        $projects = Project::orderBy('sort_order')->orderBy('name')->get();
         $modules  = !empty($filters['project_id'])
             ? Module::where('project_id', $filters['project_id'])->orderBy('sort_order')->get()
             : collect();
@@ -42,7 +42,7 @@ class RecordController extends Controller
     {
         $this->authorizeRole('editor');
 
-        $projects = Project::active()->orderBy('name')->get();
+        $projects = Project::active()->orderBy('sort_order')->orderBy('name')->get();
         $selectedProject = $request->query('project_id')
             ? Project::find($request->query('project_id'))
             : null;
@@ -111,7 +111,7 @@ class RecordController extends Controller
     {
         $this->authorizeRole('editor');
 
-        $projects = Project::orderBy('name')->get();
+        $projects = Project::orderBy('sort_order')->orderBy('name')->get();
         $modules  = Module::where('project_id', $record->project_id)
             ->orderBy('sort_order')->get();
             

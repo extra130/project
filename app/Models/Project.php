@@ -13,9 +13,10 @@ class Project extends Model
     protected $fillable = [
         'name',
         'description',
-        'color',
         'status',
+        'color',
         'created_by',
+        'sort_order',
     ];
 
     // ---------- Relationships ----------

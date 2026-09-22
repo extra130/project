@@ -29,11 +29,16 @@
                     @endif
                 </div>
 
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div id="sortable-modules" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     @forelse($project->modules as $module)
-                            <div class="bg-white rounded-lg shadow-sm p-5 border-l-4 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md
+                            <div data-id="{{ $module->id }}" class="bg-white rounded-lg shadow-sm p-5 border-l-4 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md relative
                                 {{ $module->status === 'active' ? 'border-indigo-400' : 'border-gray-300' }}">
-                                <a href="{{ route('modules.show', $module) }}" class="font-medium text-lg text-indigo-700 hover:text-indigo-900 flex items-center group">
+                                @if(Auth::user()->isEditor())
+                                    <div class="absolute top-3 right-3 cursor-move text-gray-300 hover:text-gray-500">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8h16M4 16h16"></path></svg>
+                                    </div>
+                                @endif
+                                <a href="{{ route('modules.show', $module) }}" class="font-medium text-lg text-indigo-700 hover:text-indigo-900 flex items-center group pr-6">
                                     <svg class="w-5 h-5 mr-2 text-indigo-500 group-hover:text-indigo-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 002-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
                                     {{ $module->name }}
                                 </a>
@@ -138,4 +143,37 @@
             </div>
         </div>
     </div>
+    @push('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const el = document.getElementById('sortable-modules');
+            if (el) {
+                new Sortable(el, {
+                    animation: 150,
+                    handle: '.cursor-move',
+                    ghostClass: 'bg-indigo-50',
+                    onEnd: function (evt) {
+                        const order = Array.from(el.children).map(card => card.dataset.id).filter(id => id);
+                        
+                        fetch('{{ route('modules.reorder') }}', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                            },
+                            body: JSON.stringify({ order: order })
+                        }).then(response => {
+                            if(response.ok) {
+                                window.dispatchEvent(new CustomEvent('flash-toast', { detail: { type: 'success', message: '模組排序已更新' } }));
+                            } else {
+                                window.dispatchEvent(new CustomEvent('flash-toast', { detail: { type: 'error', message: '權限不足或更新失敗' } }));
+                            }
+                        });
+                    },
+                });
+            }
+        });
+    </script>
+    @endpush
 </x-records-layout>

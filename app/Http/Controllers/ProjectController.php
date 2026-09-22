@@ -13,7 +13,8 @@ class ProjectController extends Controller
      */
     public function index(Request $request)
     {
-        $projects = Project::orderBy('name')
+        $projects = Project::orderBy('sort_order')
+            ->orderBy('name')
             ->get();
 
         return view('projects.index', compact('projects'));
@@ -114,6 +115,25 @@ class ProjectController extends Controller
         return response()->json(
             $project->modules()->active()->orderBy('sort_order')->get(['id', 'name'])
         );
+    }
+
+    /**
+     * Reorder projects.
+     */
+    public function reorder(Request $request)
+    {
+        $this->authorizeRole('editor');
+
+        $request->validate([
+            'order' => 'required|array',
+            'order.*' => 'integer|exists:projects,id',
+        ]);
+
+        foreach ($request->order as $index => $id) {
+            Project::where('id', $id)->update(['sort_order' => $index]);
+        }
+
+        return response()->json(['message' => '排序已更新']);
     }
 
 }

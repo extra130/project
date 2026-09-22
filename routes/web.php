@@ -32,6 +32,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/daily-log', [\App\Http\Controllers\DailyLogController::class, 'index'])->name('daily-log.index');
 
     // ---------- Projects (Task 02) ----------
+    Route::post('projects/reorder', [ProjectController::class, 'reorder'])->name('projects.reorder');
     Route::resource('projects', ProjectController::class)->except(['destroy']);
     Route::post('projects/{project}/archive', [ProjectController::class, 'archive'])->name('projects.archive');
 
@@ -55,7 +56,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('ajax/projects/{project}/modules', [ProjectController::class, 'getModulesJson'])
         ->name('ajax.projects.modules');
 
-    // ---------- Modules nested under projects (Task 03) ----------
+    // ---------- Modules (Task 03) ----------
+    Route::post('modules/reorder', [\App\Http\Controllers\ModuleController::class, 'reorder'])->name('modules.reorder');
     Route::get('projects/{project}/modules', [\App\Http\Controllers\ModuleController::class, 'index'])
         ->name('projects.modules.index');
     Route::get('projects/{project}/modules/create', [\App\Http\Controllers\ModuleController::class, 'create'])

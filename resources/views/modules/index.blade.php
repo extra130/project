@@ -2,7 +2,7 @@
     <x-slot name="header">
         <div class="flex items-center justify-between">
             <div>
-                <h2 class="text-xl font-semibold">{{ $project->name }} — 模組</h2>
+                <h2 class="text-xl font-semibold">{{ $project->name }} - 模組管理</h2>
             </div>
             @if(Auth::user()->isEditor())
                 <a href="{{ route('projects.modules.create', $project) }}"
@@ -17,17 +17,19 @@
         <table class="min-w-full text-sm">
             <thead class="bg-gray-50 border-b">
                 <tr>
-                    <th class="px-4 py-3 text-left text-gray-500 font-medium">排序</th>
+                    <th class="w-12 px-4 py-3 text-center text-gray-500 font-medium"></th>
                     <th class="px-4 py-3 text-left text-gray-500 font-medium">名稱</th>
-                    <th class="px-4 py-3 text-left text-gray-500 font-medium">說明</th>
+                    <th class="px-4 py-3 text-left text-gray-500 font-medium">描述</th>
                     <th class="px-4 py-3 text-left text-gray-500 font-medium">狀態</th>
                     <th class="px-4 py-3 text-left text-gray-500 font-medium">操作</th>
                 </tr>
             </thead>
-            <tbody class="divide-y divide-gray-100">
+            <tbody id="sortable-modules-table" class="divide-y divide-gray-100">
                 @forelse($modules as $module)
-                    <tr class="hover:bg-gray-50">
-                        <td class="px-4 py-3 text-gray-400">{{ $module->sort_order }}</td>
+                    <tr data-id="{{ $module->id }}" class="hover:bg-gray-50 bg-white">
+                        <td class="px-4 py-3 text-center cursor-move text-gray-400 hover:text-gray-600">
+                            <svg class="w-5 h-5 inline-block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8h16M4 16h16"></path></svg>
+                        </td>
                         <td class="px-4 py-3 font-medium">{{ $module->name }}</td>
                         <td class="px-4 py-3 text-gray-500">{{ Str::limit($module->description, 60) }}</td>
                         <td class="px-4 py-3">
@@ -38,6 +40,7 @@
                             @endif
                         </td>
                         <td class="px-4 py-3 space-x-2">
+                            <a href="{{ route('modules.show', $module) }}" class="text-indigo-600 hover:underline">附件</a>
                             <a href="{{ route('records.index', ['project_id' => $project->id, 'module_id' => $module->id]) }}"
                                class="text-indigo-600 hover:underline">紀錄</a>
                             @if(Auth::user()->isEditor())
@@ -55,6 +58,40 @@
     </div>
 
     <div class="mt-4">
-        <a href="{{ route('projects.show', $project) }}" class="text-sm text-gray-500 hover:underline">← 回專案</a>
+        <a href="{{ route('projects.show', $project) }}" class="text-sm text-gray-500 hover:underline">← 返回專案</a>
     </div>
+
+    @push('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const el = document.getElementById('sortable-modules-table');
+            if (el) {
+                new Sortable(el, {
+                    animation: 150,
+                    handle: '.cursor-move',
+                    ghostClass: 'bg-indigo-50',
+                    onEnd: function (evt) {
+                        const order = Array.from(el.children).map(row => row.dataset.id).filter(id => id);
+                        
+                        fetch('{{ route('modules.reorder') }}', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                            },
+                            body: JSON.stringify({ order: order })
+                        }).then(response => {
+                            if(response.ok) {
+                                window.dispatchEvent(new CustomEvent('flash-toast', { detail: { type: 'success', message: '模組排序已更新' } }));
+                            } else {
+                                window.dispatchEvent(new CustomEvent('flash-toast', { detail: { type: 'error', message: '權限不足或更新失敗' } }));
+                            }
+                        });
+                    },
+                });
+            }
+        });
+    </script>
+    @endpush
 </x-records-layout>

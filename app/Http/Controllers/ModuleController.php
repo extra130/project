@@ -107,16 +107,32 @@ class ModuleController extends Controller
         $validated = $request->validate([
             'name'        => 'required|string|max:150',
             'description' => 'nullable|string',
-            'sort_order'  => 'nullable|integer',
             'status'      => 'required|in:active,archived',
         ]);
-
-        $validated['sort_order'] = $validated['sort_order'] ?? 0;
 
         $module->update($validated);
 
         return redirect()->route('projects.modules.index', $module->project_id)
             ->with('success', '模組已更新。');
+    }
+
+    /**
+     * Reorder modules.
+     */
+    public function reorder(Request $request)
+    {
+        $this->authorizeRole('editor');
+
+        $request->validate([
+            'order' => 'required|array',
+            'order.*' => 'integer|exists:modules,id',
+        ]);
+
+        foreach ($request->order as $index => $id) {
+            \App\Models\Module::where('id', $id)->update(['sort_order' => $index]);
+        }
+
+        return response()->json(['message' => '排序已更新']);
     }
 
 }
