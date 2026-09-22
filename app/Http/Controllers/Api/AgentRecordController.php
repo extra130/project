@@ -27,7 +27,7 @@ class AgentRecordController extends Controller
         $this->authorizeRole('viewer');
 
         $projects = Project::active()->orderBy('name')->get([
-            'id', 'name', 'description', 'status',
+            'id', 'name', 'description', 'color', 'status',
         ]);
 
         return response()->json($projects);
@@ -41,12 +41,14 @@ class AgentRecordController extends Controller
         $request->validate([
             'name'        => 'required|string|max:150',
             'description' => 'nullable|string',
+            'color'       => 'nullable|string|max:10',
             'status'      => 'nullable|in:active,archived',
         ]);
 
         $project = Project::create([
             'name'        => $request->name,
             'description' => $request->description,
+            'color'       => $request->color ?? '#4f46e5',
             'status'      => $request->status ?? 'active',
             'created_by'  => $request->user()->id,
         ]);
@@ -70,10 +72,11 @@ class AgentRecordController extends Controller
         $request->validate([
             'name'        => 'sometimes|required|string|max:150',
             'description' => 'nullable|string',
+            'color'       => 'nullable|string|max:10',
             'status'      => 'nullable|in:active,archived',
         ]);
 
-        $project->update($request->only(['name', 'description', 'status']));
+        $project->update($request->only(['name', 'description', 'color', 'status']));
 
         return response()->json($project);
     }
@@ -137,5 +140,46 @@ class AgentRecordController extends Controller
         $module->update($request->only(['name', 'description', 'sort_order', 'status']));
 
         return response()->json($module);
+    }
+
+    // ========== Project Files ==========
+
+    /** POST /api/projects/{project}/files — Editor+ */
+    public function fileStore(Request $request, Project $project, \App\Services\ProjectFileService $fileService): JsonResponse
+    {
+        $this->authorizeRole('editor');
+
+        $request->validate([
+            'files'   => 'required|array',
+            'files.*' => 'file|max:20480',
+        ]);
+
+        $fileService->storeFiles($project, $request->file('files'), $request->user()->id);
+
+        return response()->json($project->files()->get(), 201);
+    }
+
+    /** GET /api/project-files/{projectFile}/download — Viewer+ */
+    public function fileDownload(\App\Models\ProjectFile $projectFile): mixed
+    {
+        $this->authorizeRole('viewer');
+
+        $path = $projectFile->storage_path;
+
+        if (!\Illuminate\Support\Facades\Storage::disk('local')->exists($path)) {
+            return response()->json(['message' => '檔案不存在。'], 404);
+        }
+
+        return \Illuminate\Support\Facades\Storage::disk('local')->download($path, $projectFile->original_name);
+    }
+
+    /** DELETE /api/project-files/{projectFile} — Editor+ */
+    public function fileDestroy(\App\Models\ProjectFile $projectFile, \App\Services\ProjectFileService $fileService): JsonResponse
+    {
+        $this->authorizeRole('editor');
+
+        $fileService->deleteFile($projectFile);
+
+        return response()->json(['message' => '檔案已刪除。']);
     }
 }

@@ -23,6 +23,11 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/projects/{project}', [AgentRecordController::class, 'projectShow']);
     Route::put('/projects/{project}', [AgentRecordController::class, 'projectUpdate']);
 
+    // ---------- Project Files ----------
+    Route::post('/projects/{project}/files', [AgentRecordController::class, 'fileStore']);
+    Route::get('/project-files/{projectFile}/download', [AgentRecordController::class, 'fileDownload']);
+    Route::delete('/project-files/{projectFile}', [AgentRecordController::class, 'fileDestroy']);
+
     // ---------- Modules (spec §22) ----------
     Route::get('/projects/{project}/modules', [AgentRecordController::class, 'moduleIndex']);
     Route::post('/projects/{project}/modules', [AgentRecordController::class, 'moduleStore']);

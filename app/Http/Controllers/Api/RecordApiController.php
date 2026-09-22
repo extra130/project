@@ -60,6 +60,7 @@ class RecordApiController extends Controller
             'title'      => 'required|string|max:255',
             'content'    => 'required|string',
             'source'     => 'required|in:manual,codex,agent,api',
+            'ai_tool'    => 'nullable|string|max:50',
             'git_branch' => 'nullable|string|max:255',
             'git_commit' => 'nullable|string|max:100',
         ]);
@@ -98,6 +99,7 @@ class RecordApiController extends Controller
             'title'      => 'sometimes|required|string|max:255',
             'content'    => 'sometimes|required|string',
             'source'     => 'sometimes|required|in:manual,codex,agent,api',
+            'ai_tool'    => 'nullable|string|max:50',
             'git_branch' => 'nullable|string|max:255',
             'git_commit' => 'nullable|string|max:100',
         ]);
