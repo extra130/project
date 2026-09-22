@@ -204,6 +204,7 @@
                                     ];
                                 @endphp
                                 <button type="button" 
+                                        x-data
                                         data-attachments="{{ json_encode($attachmentData) }}"
                                         @click="$dispatch('open-attachments', JSON.parse($el.dataset.attachments))"
                                         class="text-xs text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded hover:bg-indigo-100 hover:underline">
