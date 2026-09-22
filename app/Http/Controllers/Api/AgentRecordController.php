@@ -182,4 +182,43 @@ class AgentRecordController extends Controller
 
         return response()->json(['message' => '檔案已刪除。']);
     }
+
+    /** POST /api/modules/{module}/files - Editor+ */
+    public function moduleFileStore(Request $request, \App\Models\Module $module, \App\Services\ModuleFileService $fileService): JsonResponse
+    {
+        $this->authorizeRole('editor');
+
+        $request->validate([
+            'files'   => 'required|array',
+            'files.*' => 'file|max:20480',
+        ]);
+
+        $fileService->storeFiles($module, $request->file('files'), Auth::id());
+
+        return response()->json([
+            'message' => '模組檔案上傳成功。',
+            'files' => $module->files()->latest()->get()
+        ], 201);
+    }
+
+    /** GET /api/module-files/{moduleFile}/download - Viewer+ */
+    public function moduleFileDownload(\App\Models\ModuleFile $moduleFile)
+    {
+        $path = $moduleFile->storage_path;
+        if (!Storage::disk('local')->exists($path)) {
+            return response()->json(['message' => '檔案不存在。'], 404);
+        }
+
+        return Storage::disk('local')->download($path, $moduleFile->original_name);
+    }
+
+    /** DELETE /api/module-files/{moduleFile} - Editor+ */
+    public function moduleFileDestroy(\App\Models\ModuleFile $moduleFile, \App\Services\ModuleFileService $fileService): JsonResponse
+    {
+        $this->authorizeRole('editor');
+
+        $fileService->deleteFile($moduleFile);
+
+        return response()->json(['message' => '模組檔案已刪除。']);
+    }
 }

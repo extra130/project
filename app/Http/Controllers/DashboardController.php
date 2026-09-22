@@ -16,7 +16,7 @@ class DashboardController extends Controller
         $stats = [
             'projects' => Project::count(),
             'records'  => Record::count(),
-            'files'    => RecordFile::count() + \App\Models\ProjectFile::count(),
+            'files'    => RecordFile::count() + \App\Models\ProjectFile::count() + \App\Models\ModuleFile::count(),
         ];
 
         // 2. 紀錄類型圓餅圖數據

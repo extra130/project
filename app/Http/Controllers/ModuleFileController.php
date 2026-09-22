@@ -38,6 +38,8 @@ class ModuleFileController extends Controller
      */
     public function download(ModuleFile $moduleFile): StreamedResponse
     {
+        $this->authorizeRole('viewer');
+
         $path = $moduleFile->storage_path;
 
         if (!Storage::disk('local')->exists($path)) {
@@ -52,6 +54,8 @@ class ModuleFileController extends Controller
      */
     public function preview(ModuleFile $moduleFile)
     {
+        $this->authorizeRole('viewer');
+
         $path = $moduleFile->storage_path;
 
         if (!Storage::disk('local')->exists($path)) {

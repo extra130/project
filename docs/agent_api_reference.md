@@ -73,7 +73,21 @@ files[1] = <binary>
 ### `GET /api/projects/{project_id}/modules` — 列出專案下的模組
 ### `POST /api/projects/{project_id}/modules` — 建立模組
 ### `GET /api/modules/{id}` — 取得模組詳情
-### `PUT /api/modules/{id}` — 更新模組
+### `PUT /api/modules/{id}` - 更新模組
+
+---
+
+## 模組直屬文件 (Module Files)
+### `POST /api/modules/{module_id}/files` - 上傳模組文件
+> `Content-Type: multipart/form-data`
+- 支援多檔上傳。
+```
+files[0] = <binary>
+files[1] = <binary>
+```
+
+### `GET /api/module-files/{id}/download` - 下載模組文件
+### `DELETE /api/module-files/{id}` - 刪除模組文件
 
 ---
 

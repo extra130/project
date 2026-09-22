@@ -38,6 +38,8 @@ class ProjectFileController extends Controller
      */
     public function download(ProjectFile $projectFile): StreamedResponse
     {
+        $this->authorizeRole('viewer');
+
         $path = $projectFile->storage_path;
 
         if (!Storage::disk('local')->exists($path)) {
@@ -52,6 +54,8 @@ class ProjectFileController extends Controller
      */
     public function preview(ProjectFile $projectFile)
     {
+        $this->authorizeRole('viewer');
+
         $path = $projectFile->storage_path;
 
         if (!Storage::disk('local')->exists($path)) {

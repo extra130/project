@@ -34,6 +34,11 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/modules/{module}', [AgentRecordController::class, 'moduleShow']);
     Route::put('/modules/{module}', [AgentRecordController::class, 'moduleUpdate']);
 
+    // ---------- Module Files ----------
+    Route::post('/modules/{module}/files', [AgentRecordController::class, 'moduleFileStore']);
+    Route::get('/module-files/{moduleFile}/download', [AgentRecordController::class, 'moduleFileDownload']);
+    Route::delete('/module-files/{moduleFile}', [AgentRecordController::class, 'moduleFileDestroy']);
+
     // ---------- Records (spec §23 / Task 10, 11) ----------
     Route::get('/records', [RecordApiController::class, 'index']);
     Route::post('/records', [RecordApiController::class, 'store']);
