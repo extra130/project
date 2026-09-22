@@ -61,6 +61,13 @@ class ProjectFileController extends Controller
         $absolutePath = Storage::disk('local')->path($path);
         $ext = strtolower($projectFile->extension);
 
+        // Drawio: Render via static diagram viewer
+        if ($ext === 'drawio') {
+            $content = file_get_contents($absolutePath);
+            $fileName = $projectFile->original_name;
+            return view('shared.preview-drawio', compact('fileName', 'content'));
+        }
+
         // Markdown: Render as HTML view
         if (in_array($ext, ['md', 'markdown'])) {
             $content = file_get_contents($absolutePath);

@@ -59,7 +59,7 @@
                                         {{ $file->created_at->format('Y/m/d H:i') }}
                                     </td>
                                     <td class="px-6 py-3 text-right space-x-3">
-                                        @if(in_array(strtolower($file->extension), ['pdf', 'html', 'htm', 'md', 'markdown', 'jpg', 'jpeg', 'png', 'gif', 'webp', 'svg']))
+                                        @if(in_array(strtolower($file->extension), ['pdf', 'html', 'htm', 'md', 'markdown', 'jpg', 'jpeg', 'png', 'gif', 'webp', 'svg', 'drawio']))
                                             <a href="{{ route('record-files.preview', $file) }}" target="_blank" class="text-xs text-blue-600 hover:underline">👁 預覽</a>
                                         @endif
                                         <a href="{{ route('record-files.download', $file) }}" class="text-xs text-indigo-600 hover:underline">⬇ 下載</a>

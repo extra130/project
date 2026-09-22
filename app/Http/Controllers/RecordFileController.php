@@ -115,6 +115,13 @@ class RecordFileController extends Controller
 
         $ext = strtolower($recordFile->extension);
 
+        // Drawio: Render via static diagram viewer
+        if ($ext === 'drawio') {
+            $content = file_get_contents($absolutePath);
+            $fileName = $recordFile->display_name . '.' . $ext;
+            return view('shared.preview-drawio', compact('fileName', 'content'));
+        }
+
         // Markdown: Render as HTML view
         if (in_array($ext, ['md', 'markdown'])) {
             $content = file_get_contents($absolutePath);

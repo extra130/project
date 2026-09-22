@@ -198,7 +198,7 @@
                                                 'size' => number_format($file->file_size / 1024, 1) . ' KB',
                                                 'download_url' => route('record-files.download', $file),
                                                 'preview_url' => route('record-files.preview', $file),
-                                                'previewable' => in_array(strtolower($file->extension), ['pdf', 'html', 'htm', 'md', 'markdown', 'jpg', 'jpeg', 'png', 'gif']),
+                                                'previewable' => in_array(strtolower($file->extension), ['pdf', 'html', 'htm', 'md', 'markdown', 'jpg', 'jpeg', 'png', 'gif', 'webp', 'svg', 'drawio']),
                                             ];
                                         })
                                     ];

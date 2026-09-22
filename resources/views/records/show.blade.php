@@ -154,7 +154,7 @@
                             </div>
 
                             <div class="flex items-center space-x-3 mt-2 pt-2 border-t border-gray-50">
-                                @if(in_array(strtolower($file->extension), ['pdf', 'html', 'htm', 'md', 'markdown', 'jpg', 'jpeg', 'png', 'gif', 'webp', 'svg']))
+                                @if(in_array(strtolower($file->extension), ['pdf', 'html', 'htm', 'md', 'markdown', 'jpg', 'jpeg', 'png', 'gif', 'webp', 'svg', 'drawio']))
                                     <a href="{{ route('record-files.preview', $file) }}"
                                        target="_blank"
                                        class="text-xs text-blue-600 hover:underline">👁 預覽</a>
