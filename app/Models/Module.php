@@ -31,6 +31,11 @@ class Module extends Model
         return $this->hasMany(Record::class);
     }
 
+    public function files(): HasMany
+    {
+        return $this->hasMany(ModuleFile::class);
+    }
+
     // ---------- Scopes ----------
 
     public function scopeActive($query)

@@ -87,10 +87,13 @@ class ModuleController extends Controller
             ->orderBy('created_at', 'desc')
             ->get();
 
+        $moduleFiles = $module->files()->orderBy('created_at', 'desc')->get();
+
         return view('modules.show', [
             'module'         => $module,
             'currentProject' => $module->project,
             'files'          => $files,
+            'moduleFiles'    => $moduleFiles,
         ]);
     }
 

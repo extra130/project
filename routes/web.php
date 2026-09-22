@@ -43,6 +43,14 @@ Route::middleware(['auth'])->group(function () {
         ->name('project-files.download');
     Route::delete('/project-files/{projectFile}', [\App\Http\Controllers\ProjectFileController::class, 'destroy'])->name('project-files.destroy');
 
+    // ---------- Module Files ----------
+    Route::post('/modules/{module}/files', [\App\Http\Controllers\ModuleFileController::class, 'store'])->name('module-files.store');
+    Route::get('module-files/{moduleFile}/preview', [\App\Http\Controllers\ModuleFileController::class, 'preview'])
+        ->name('module-files.preview');
+    Route::get('module-files/{moduleFile}/download', [\App\Http\Controllers\ModuleFileController::class, 'download'])
+        ->name('module-files.download');
+    Route::delete('/module-files/{moduleFile}', [\App\Http\Controllers\ModuleFileController::class, 'destroy'])->name('module-files.destroy');
+
     // AJAX 端點：取得專案的模組列表 (前端動態選單使用)
     Route::get('ajax/projects/{project}/modules', [ProjectController::class, 'getModulesJson'])
         ->name('ajax.projects.modules');
