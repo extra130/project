@@ -12,11 +12,11 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        // 1. 基本總計
+        // 1. 基本統計
         $stats = [
             'projects' => Project::count(),
             'records'  => Record::count(),
-            'files'    => RecordFile::count(),
+            'files'    => RecordFile::count() + \App\Models\ProjectFile::count(),
         ];
 
         // 2. 紀錄類型圓餅圖數據
