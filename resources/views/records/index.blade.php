@@ -187,23 +187,25 @@
                             @endif
                             <span class="text-xs text-gray-400 ml-2">{{ $record->created_at->format('Y/m/d') }}</span>
                             @if($record->files->count() > 0)
+                                @php
+                                    $attachmentData = [
+                                        'title' => $record->title,
+                                        'files' => $record->files->map(function($file) {
+                                            return [
+                                                'id' => $file->id,
+                                                'name' => $file->display_name,
+                                                'ext' => strtolower($file->extension),
+                                                'size' => number_format($file->file_size / 1024, 1) . ' KB',
+                                                'download_url' => route('record-files.download', $file),
+                                                'preview_url' => route('record-files.preview', $file),
+                                                'previewable' => in_array(strtolower($file->extension), ['pdf', 'html', 'htm', 'md', 'markdown', 'jpg', 'jpeg', 'png', 'gif']),
+                                            ];
+                                        })
+                                    ];
+                                @endphp
                                 <button type="button" 
-                                        @click="$dispatch('open-attachments', {
-                                            title: '{{ addslashes($record->title) }}',
-                                            files: [
-                                                @foreach($record->files as $file)
-                                                {
-                                                    id: {{ $file->id }},
-                                                    name: '{{ addslashes($file->display_name) }}',
-                                                    ext: '{{ strtolower($file->extension) }}',
-                                                    size: '{{ number_format($file->file_size / 1024, 1) }} KB',
-                                                    download_url: '{{ route('record-files.download', $file) }}',
-                                                    preview_url: '{{ route('record-files.preview', $file) }}',
-                                                    previewable: {{ in_array(strtolower($file->extension), ['pdf', 'html', 'htm', 'md', 'markdown', 'jpg', 'jpeg', 'png', 'gif']) ? 'true' : 'false' }}
-                                                },
-                                                @endforeach
-                                            ]
-                                        })"
+                                        data-attachments="{{ json_encode($attachmentData) }}"
+                                        @click="$dispatch('open-attachments', JSON.parse($el.dataset.attachments))"
                                         class="text-xs text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded hover:bg-indigo-100 hover:underline">
                                     📎 {{ $record->files->count() }} 個附件
                                 </button>
