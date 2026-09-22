@@ -22,6 +22,16 @@
                 @error('description')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
             </div>
 
+            <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700 mb-1">專案代表色</label>
+                <div class="flex items-center space-x-2">
+                    <input type="color" name="color" value="{{ old('color', '#4f46e5') }}"
+                           class="h-8 w-8 border border-gray-300 rounded cursor-pointer p-0">
+                    <span class="text-xs text-gray-500">選擇一個能代表此專案的顏色</span>
+                </div>
+                @error('color')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
+            </div>
+
             <div class="mb-6">
                 <label class="block text-sm font-medium text-gray-700 mb-1">狀態</label>
                 <select name="status" class="border border-gray-300 rounded px-3 py-2 text-sm">

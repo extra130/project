@@ -30,9 +30,11 @@
             @foreach($groupedRecords as $projectName => $records)
                 <div class="bg-white rounded shadow-sm overflow-hidden print:shadow-none print:border print:break-inside-avoid">
                     {{-- 專案標題列 --}}
-                    <div class="bg-indigo-50 border-b border-indigo-100 px-6 py-3 print:bg-gray-100 print:border-gray-300">
-                        <h3 class="text-lg font-bold text-indigo-900 print:text-black">
-                            📁 專案：{{ $projectName }}
+                    @php $pColor = $records->first()->project->color ?? '#4f46e5'; @endphp
+                    <div class="px-6 py-3 print:bg-gray-100 print:border-gray-300 border-b"
+                         style="background-color: {{ $pColor }}15; border-color: {{ $pColor }}30;">
+                        <h3 class="text-lg font-bold print:text-black flex items-center" style="color: {{ $pColor }};">
+                            <span class="mr-2" style="color: {{ $pColor }};">📁</span> {{ $projectName }}
                         </h3>
                     </div>
                     

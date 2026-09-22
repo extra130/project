@@ -39,8 +39,11 @@ class ProjectController extends Controller
         $validated = $request->validate([
             'name'        => 'required|string|max:150',
             'description' => 'nullable|string',
+            'color'       => 'nullable|string|max:10',
             'status'      => 'required|in:active,archived',
         ]);
+        
+        $validated['color'] = $validated['color'] ?? '#4f46e5';
 
         $validated['created_by'] = Auth::id();
 
@@ -91,8 +94,11 @@ class ProjectController extends Controller
         $validated = $request->validate([
             'name'        => 'required|string|max:150',
             'description' => 'nullable|string',
+            'color'       => 'nullable|string|max:10',
             'status'      => 'required|in:active,archived',
         ]);
+        
+        $validated['color'] = $validated['color'] ?? $project->color ?? '#4f46e5';
 
         $project->update($validated);
 

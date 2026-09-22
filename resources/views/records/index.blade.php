@@ -132,7 +132,7 @@
     {{-- ========== Records list ========== --}}
     <div class="space-y-3">
         @forelse($records as $record)
-            <div class="bg-white rounded shadow-sm p-4 hover:shadow-md transition-shadow">
+            <div class="bg-white rounded shadow-sm p-4 hover:shadow-md transition-shadow border-l-4" style="border-left-color: {{ $record->project->color ?? '#4f46e5' }};">
                 <div class="flex items-start justify-between">
                     <div class="flex-1">
                         <div class="flex items-center space-x-2 mb-1">
@@ -172,18 +172,22 @@
                         </div>
 
                         <a href="{{ route('records.show', $record) }}"
-                           class="font-medium text-gray-900 hover:text-indigo-600">
+                           class="font-medium text-gray-900 hover:text-indigo-600 text-lg">
                             {{ $record->title }}
                         </a>
 
-                        <div class="text-xs text-gray-400 mt-1 space-x-2">
-                            <span>{{ $record->project->name ?? '' }}</span>
+                        <div class="mt-2 flex items-center space-x-2">
+                            {{-- Project Name prominently colored --}}
+                            <span class="text-xs font-bold px-2 py-0.5 rounded shadow-sm text-white" style="background-color: {{ $record->project->color ?? '#4f46e5' }};">
+                                {{ $record->project->name ?? '' }}
+                            </span>
+                            
                             @if($record->module)
-                                <span>/ {{ $record->module->name }}</span>
+                                <span class="text-xs text-gray-500 font-medium">/ {{ $record->module->name }}</span>
                             @endif
-                            <span>{{ $record->created_at->format('Y/m/d') }}</span>
+                            <span class="text-xs text-gray-400 ml-2">{{ $record->created_at->format('Y/m/d') }}</span>
                             @if($record->files->count() > 0)
-                                <span>📎 {{ $record->files->count() }} 個附件</span>
+                                <span class="text-xs text-gray-400">📎 {{ $record->files->count() }} 個附件</span>
                             @endif
                         </div>
                         

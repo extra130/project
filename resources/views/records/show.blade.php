@@ -45,7 +45,10 @@
                 <div>
                     <span class="text-gray-400">專案：</span>
                     <a href="{{ route('projects.show', $record->project) }}"
-                       class="text-indigo-600 hover:underline">{{ $record->project->name }}</a>
+                       class="text-white px-2 py-0.5 rounded text-xs font-bold shadow-sm inline-block"
+                       style="background-color: {{ $record->project->color ?? '#4f46e5' }};">
+                        {{ $record->project->name }}
+                    </a>
                 </div>
                 <div>
                     <span class="text-gray-400">模組：</span>
