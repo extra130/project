@@ -29,6 +29,7 @@ Route::middleware(['auth'])->group(function () {
 
     // ---------- Calendar & Daily Log ----------
     Route::get('/calendar', [\App\Http\Controllers\CalendarController::class, 'index'])->name('calendar.index');
+    Route::post('/calendar/sync-holidays', [\App\Http\Controllers\CalendarController::class, 'syncHolidays'])->name('calendar.sync-holidays');
     Route::get('/daily-log', [\App\Http\Controllers\DailyLogController::class, 'index'])->name('daily-log.index');
 
     // ---------- Projects (Task 02) ----------
