@@ -31,18 +31,19 @@
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     @forelse($project->modules as $module)
-                            <div class="bg-white rounded shadow-sm p-4 border-l-4
+                            <div class="bg-white rounded-lg shadow-sm p-5 border-l-4 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md
                                 {{ $module->status === 'active' ? 'border-indigo-400' : 'border-gray-300' }}">
-                                <a href="{{ route('modules.show', $module) }}" class="font-medium text-lg text-indigo-700 hover:underline flex items-center">
-                                    <span class="mr-1">🗂</span> {{ $module->name }}
+                                <a href="{{ route('modules.show', $module) }}" class="font-medium text-lg text-indigo-700 hover:text-indigo-900 flex items-center group">
+                                    <svg class="w-5 h-5 mr-2 text-indigo-500 group-hover:text-indigo-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 002-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+                                    {{ $module->name }}
                                 </a>
-                                <div class="text-xs text-gray-400 mt-1 truncate">{{ $module->description }}</div>
-                                <div class="mt-3 flex items-center space-x-3 text-xs">
+                                <div class="text-xs text-gray-500 mt-2 truncate">{{ $module->description ?? '無描述' }}</div>
+                                <div class="mt-4 flex items-center space-x-3 text-xs">
                                     <a href="{{ route('modules.show', $module) }}"
-                                       class="text-indigo-600 hover:underline">附件總覽</a>
+                                       class="text-indigo-600 hover:text-indigo-800 font-medium">附件總覽</a>
                                     <span class="text-gray-300">|</span>
                                     <a href="{{ route('records.index', ['project_id' => $project->id, 'module_id' => $module->id]) }}"
-                                       class="text-indigo-600 hover:underline">所有紀錄</a>
+                                       class="text-indigo-600 hover:text-indigo-800 font-medium">所有紀錄</a>
                                     @if(Auth::user()->isEditor())
                                         <span class="text-gray-300">|</span>
                                         <a href="{{ route('modules.edit', $module) }}" class="text-gray-400 hover:text-gray-600">編輯</a>
@@ -50,7 +51,10 @@
                                 </div>
                             </div>
                     @empty
-                        <div class="col-span-2 text-center text-gray-400 py-8 bg-white rounded shadow-sm">尚無模組</div>
+                        <div class="col-span-2 text-center text-gray-400 py-12 bg-white rounded shadow-sm flex flex-col items-center">
+                            <svg class="w-10 h-10 text-gray-300 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"></path></svg>
+                            尚無模組
+                        </div>
                     @endforelse
                 </div>
             </div>
