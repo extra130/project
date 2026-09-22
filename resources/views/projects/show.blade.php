@@ -101,9 +101,14 @@
                                 · {{ number_format($file->file_size / 1024, 1) }} KB
                             </div>
 
-                            <div class="flex items-center space-x-3 mt-2 pt-2 border-t border-gray-50">
-                                <a href="{{ route('project-files.download', $file) }}"
-                                   class="text-xs text-indigo-600 hover:underline">⬇ 下載</a>
+                              <div class="flex items-center space-x-3 mt-2 pt-2 border-t border-gray-50">
+                                  @if(in_array(strtolower($file->extension), ['pdf', 'html', 'htm', 'md', 'markdown', 'jpg', 'jpeg', 'png', 'gif', 'webp', 'svg']))
+                                      <a href="{{ route('project-files.preview', $file) }}"
+                                         target="_blank"
+                                         class="text-xs text-blue-600 hover:underline">👁 預覽</a>
+                                  @endif
+                                  <a href="{{ route('project-files.download', $file) }}"
+                                     class="text-xs text-indigo-600 hover:underline">⬇ 下載</a>
                                 @if(Auth::user()->isEditor())
                                     <form method="POST" action="{{ route('project-files.destroy', $file) }}"
                                           onsubmit="return confirm('確定刪除此文件？')"

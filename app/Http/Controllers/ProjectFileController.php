@@ -48,6 +48,38 @@ class ProjectFileController extends Controller
     }
 
     /**
+     * Preview a project file online.
+     */
+    public function preview(ProjectFile $projectFile)
+    {
+        $path = $projectFile->storage_path;
+
+        if (!Storage::disk('local')->exists($path)) {
+            abort(404, '檔案不存在。');
+        }
+
+        $absolutePath = Storage::disk('local')->path($path);
+        $ext = strtolower($projectFile->extension);
+
+        // Markdown: Render as HTML view
+        if (in_array($ext, ['md', 'markdown'])) {
+            $content = file_get_contents($absolutePath);
+            // We can reuse the same markdown preview view but pass a different variable or just use generic name.
+            // Let's pass it as $recordFile since the view expects it, or create a new view for project_files.
+            // Wait, the view uses $recordFile->display_name. ProjectFile doesn't have display_name, it uses original_name.
+            // So we need a separate view or a generic one. Let's create `resources/views/project_files/preview-md.blade.php`.
+            return view('project_files.preview-md', compact('projectFile', 'content'));
+        }
+
+        $mime = $projectFile->mime_type ?? mime_content_type($absolutePath);
+
+        return response()->file($absolutePath, [
+            'Content-Type' => $mime,
+            'Content-Disposition' => 'inline; filename="' . $projectFile->original_name . '"'
+        ]);
+    }
+
+    /**
      * Delete a project file.
      */
     public function destroy(ProjectFile $projectFile)
