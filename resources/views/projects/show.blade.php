@@ -31,18 +31,24 @@
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     @forelse($project->modules as $module)
-                        <div class="bg-white rounded shadow-sm p-4 border-l-4
-                            {{ $module->status === 'active' ? 'border-indigo-400' : 'border-gray-300' }}">
-                            <div class="font-medium">{{ $module->name }}</div>
-                            <div class="text-xs text-gray-400 mt-0.5 truncate">{{ $module->description }}</div>
-                            <div class="mt-3 flex items-center space-x-3 text-xs">
-                                <a href="{{ route('records.index', ['project_id' => $project->id, 'module_id' => $module->id]) }}"
-                                   class="text-indigo-600 hover:underline">查看紀錄</a>
-                                @if(Auth::user()->isEditor())
-                                    <a href="{{ route('modules.edit', $module) }}" class="text-gray-400 hover:text-gray-600">編輯</a>
-                                @endif
+                            <div class="bg-white rounded shadow-sm p-4 border-l-4
+                                {{ $module->status === 'active' ? 'border-indigo-400' : 'border-gray-300' }}">
+                                <a href="{{ route('modules.show', $module) }}" class="font-medium text-lg text-indigo-700 hover:underline flex items-center">
+                                    <span class="mr-1">🗂</span> {{ $module->name }}
+                                </a>
+                                <div class="text-xs text-gray-400 mt-1 truncate">{{ $module->description }}</div>
+                                <div class="mt-3 flex items-center space-x-3 text-xs">
+                                    <a href="{{ route('modules.show', $module) }}"
+                                       class="text-indigo-600 hover:underline">附件總覽</a>
+                                    <span class="text-gray-300">|</span>
+                                    <a href="{{ route('records.index', ['project_id' => $project->id, 'module_id' => $module->id]) }}"
+                                       class="text-indigo-600 hover:underline">所有紀錄</a>
+                                    @if(Auth::user()->isEditor())
+                                        <span class="text-gray-300">|</span>
+                                        <a href="{{ route('modules.edit', $module) }}" class="text-gray-400 hover:text-gray-600">編輯</a>
+                                    @endif
+                                </div>
                             </div>
-                        </div>
                     @empty
                         <div class="col-span-2 text-center text-gray-400 py-8 bg-white rounded shadow-sm">尚無模組</div>
                     @endforelse

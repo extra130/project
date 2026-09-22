@@ -73,6 +73,28 @@ class ModuleController extends Controller
     }
 
     /**
+     * Display a module and all its record attachments.
+     */
+    public function show(Module $module)
+    {
+        $module->load('project');
+
+        // 取得該模組底下所有紀錄的附件
+        $files = \App\Models\RecordFile::with('record')
+            ->whereHas('record', function ($q) use ($module) {
+                $q->where('module_id', $module->id);
+            })
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return view('modules.show', [
+            'module'         => $module,
+            'currentProject' => $module->project,
+            'files'          => $files,
+        ]);
+    }
+
+    /**
      * Update a module.
      */
     public function update(Request $request, Module $module)

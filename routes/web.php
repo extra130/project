@@ -48,13 +48,15 @@ Route::middleware(['auth'])->group(function () {
         ->name('ajax.projects.modules');
 
     // ---------- Modules nested under projects (Task 03) ----------
-    Route::get('projects/{project}/modules', [ModuleController::class, 'index'])
+    Route::get('projects/{project}/modules', [\App\Http\Controllers\ModuleController::class, 'index'])
         ->name('projects.modules.index');
-    Route::get('projects/{project}/modules/create', [ModuleController::class, 'create'])
+    Route::get('projects/{project}/modules/create', [\App\Http\Controllers\ModuleController::class, 'create'])
         ->name('projects.modules.create');
-    Route::post('projects/{project}/modules', [ModuleController::class, 'store'])
+    Route::post('projects/{project}/modules', [\App\Http\Controllers\ModuleController::class, 'store'])
         ->name('projects.modules.store');
-    Route::get('modules/{module}/edit', [ModuleController::class, 'edit'])
+    Route::get('modules/{module}', [\App\Http\Controllers\ModuleController::class, 'show'])
+        ->name('modules.show');
+    Route::get('modules/{module}/edit', [\App\Http\Controllers\ModuleController::class, 'edit'])
         ->name('modules.edit');
     Route::put('modules/{module}', [ModuleController::class, 'update'])
         ->name('modules.update');
