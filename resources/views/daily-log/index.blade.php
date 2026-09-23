@@ -1,8 +1,29 @@
 ﻿<x-records-layout title="瘥撌乩??亥?">
+    <div x-data="{
+        showRemarks: {{ auth()->user()->show_remarks_in_daily_log ?? true ? 'true' : 'false' }},
+        toggleRemarks() {
+            this.showRemarks = !this.showRemarks;
+            fetch('{{ route('profile.preferences') }}', {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name=csrf-token]').content
+                },
+                body: JSON.stringify({ show_remarks_in_daily_log: this.showRemarks })
+            }).then(() => {
+                window.dispatchEvent(new CustomEvent('flash-toast', { detail: { type: 'success', message: '設定已儲存' } }));
+            });
+        }
+    }">
     <x-slot name="header">
         <div class="flex items-center justify-between print:hidden">
             <h2 class="text-xl font-semibold">?? 瘥撌乩??亥?</h2>
             <div class="flex items-center space-x-4">
+                <label class="inline-flex items-center cursor-pointer print:hidden">
+                    <input type="checkbox" class="sr-only peer" :checked="showRemarks" @change="toggleRemarks()">
+                    <div class="relative w-9 h-5 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-indigo-300 dark:peer-focus:ring-indigo-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-600 peer-checked:bg-indigo-600"></div>
+                    <span class="ms-2 text-sm font-medium text-gray-700 dark:text-gray-300">顯示備註</span>
+                </label>
                 <form method="GET" action="{{ route('daily-log.index') }}" class="flex items-center space-x-2">
                     <input type="date" name="date" value="{{ $targetDate->format('Y-m-d') }}" 
                            class="border border-gray-300 dark:border-gray-600 rounded px-3 py-1.5 text-sm"
@@ -28,7 +49,7 @@
     @else
         <div class="space-y-8">
             @foreach($groupedRecords as $projectName => $records)
-                <div class="bg-white dark:bg-gray-800 rounded shadow-sm overflow-hidden print:shadow-none print:border print:break-inside-avoid">
+                <div class="bg-white dark:bg-gray-800 rounded shadow-sm overflow-hidden print:shadow-none print:border print:break-inside-avoid" x-show="showRemarks || {{ $records->where('type', '!=', 'note')->count() > 0 ? 'true' : 'false' }}">
                     {{-- 撠?璅???--}}
                     @php $pColor = $records->first()->project->color ?? '#4f46e5'; @endphp
                     <div class="px-6 py-3 print:bg-gray-100 dark:bg-gray-700 print:border-gray-300 dark:border-gray-600 border-b"
@@ -41,7 +62,7 @@
                     {{-- 閰脣?獢?銝?蝝??--}}
                     <div class="divide-y divide-gray-100 dark:divide-gray-800">
                         @foreach($records as $record)
-                            <div class="p-6">
+                            <div class="p-6" x-show="showRemarks || '{{ $record->type }}' !== 'note'">
                                 <div class="flex items-start justify-between mb-3">
                                     <div>
                                         <div class="flex items-center space-x-2 mb-2">
@@ -124,6 +145,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
     <script>hljs.highlightAll();</script>
     @endpush
+</div>
 </x-records-layout>
+
+
 
 

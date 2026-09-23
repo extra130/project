@@ -60,4 +60,20 @@ class ProfileController extends Controller
 
         return Redirect::to('/');
     }
+
+    /**
+     * Update user preferences (e.g. daily log visibility).
+     */
+    public function updatePreferences(Request $request)
+    {
+        $user = $request->user();
+        
+        if ($request->has('show_remarks_in_daily_log')) {
+            $user->show_remarks_in_daily_log = filter_var($request->input('show_remarks_in_daily_log'), FILTER_VALIDATE_BOOLEAN);
+        }
+        
+        $user->save();
+
+        return response()->json(['success' => true]);
+    }
 }

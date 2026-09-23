@@ -17,6 +17,7 @@ class User extends Authenticatable
         'email',
         'password',
         'role',
+        'show_remarks_in_daily_log',
     ];
 
     protected $hidden = [
@@ -26,6 +27,7 @@ class User extends Authenticatable
 
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'show_remarks_in_daily_log' => 'boolean',
     ];
 
     // ---------- Role helpers ----------
