@@ -1,10 +1,10 @@
-﻿{{-- Records index - spec 禮16 UI, Task 04+05 --}}
-<x-records-layout title="蝝??銵?>
+﻿{{-- Records index - spec §16 UI, Task 04+05 --}}
+<x-records-layout title="紀錄列表">
     <x-slot name="header">
         <div class="flex items-center justify-between">
-            <h2 class="text-xl font-semibold">蝝??銵?/h2>
+            <h2 class="text-xl font-semibold">紀錄列表</h2>
             <a href="{{ route('calendar.index') }}" class="text-sm bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded hover:bg-gray-50 dark:bg-gray-900 flex items-center">
-                <span class="mr-1">??</span> ????璅∪?
+                <span class="mr-1">📅</span> 切換月曆模式
             </a>
         </div>
     </x-slot>
@@ -14,10 +14,10 @@
         @if(!empty($filters['tag']))
             <input type="hidden" name="tag" value="{{ $filters['tag'] }}">
             <div class="mb-4 flex items-center bg-gray-50 dark:bg-gray-900 p-2 rounded-lg inline-flex">
-                <span class="text-sm text-gray-500 dark:text-gray-400 mr-2">璅惜蝭拚嚗?/span>
+                <span class="text-sm text-gray-500 dark:text-gray-400 mr-2">標籤篩選：</span>
                 <span class="bg-indigo-100 text-indigo-700 px-2 py-1 rounded text-sm font-medium">#{{ $filters['tag'] }}</span>
                 <a href="{{ route('records.index', \Illuminate\Support\Arr::except($filters, ['tag'])) }}" class="ml-3 text-red-500 hover:text-red-700 text-xs flex items-center">
-                    <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>蝘駁
+                    <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>移除
                 </a>
             </div>
         @endif
@@ -30,7 +30,7 @@
                     <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                         <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                     </div>
-                    <input type="text" name="keyword" placeholder="??璅??摰?.."
+                    <input type="text" name="keyword" placeholder="搜尋標題或內容..."
                            value="{{ $filters['keyword'] ?? '' }}"
                            class="block w-full pl-10 pr-3 py-2 border-gray-300 dark:border-gray-600 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md transition-colors">
                 </div>
@@ -40,7 +40,7 @@
             <div>
                 <select name="project_id" id="filter-project"
                         class="block w-full border-gray-300 dark:border-gray-600 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md shadow-sm transition-colors">
-                    <option value="">--???獢?-</option>
+                    <option value="">--所有專案--</option>
                     @foreach($projects as $p)
                         <option value="{{ $p->id }}"
                                 {{ ($filters['project_id'] ?? '') == $p->id ? 'selected' : '' }}>
@@ -54,7 +54,7 @@
             <div>
                 <select name="module_id" id="filter-module"
                         class="block w-full border-gray-300 dark:border-gray-600 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md shadow-sm transition-colors">
-                    <option value="">--??芋蝯?-</option>
+                    <option value="">--所有模組--</option>
                     @foreach($modules as $m)
                         <option value="{{ $m->id }}"
                                 {{ ($filters['module_id'] ?? '') == $m->id ? 'selected' : '' }}>
@@ -67,11 +67,11 @@
             {{-- Type --}}
             <div>
                 <select name="type" class="block w-full border-gray-300 dark:border-gray-600 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md shadow-sm transition-colors">
-                    <option value="">--?????-</option>
-                    <option value="development" {{ ($filters['type'] ?? '') === 'development' ? 'selected' : '' }}>?蝝??/option>
-                    <option value="test"        {{ ($filters['type'] ?? '') === 'test'        ? 'selected' : '' }}>皜祈岫蝝??/option>
-                    <option value="issue"       {{ ($filters['type'] ?? '') === 'issue'       ? 'selected' : '' }}>??蝝??/option>
-                    <option value="note"        {{ ($filters['type'] ?? '') === 'note'        ? 'selected' : '' }}>蝑?</option>
+                    <option value="">--所有類型--</option>
+                    <option value="development" {{ ($filters['type'] ?? '') === 'development' ? 'selected' : '' }}>開發紀錄</option>
+                    <option value="test"        {{ ($filters['type'] ?? '') === 'test'        ? 'selected' : '' }}>測試紀錄</option>
+                    <option value="issue"       {{ ($filters['type'] ?? '') === 'issue'       ? 'selected' : '' }}>問題紀錄</option>
+                    <option value="note"        {{ ($filters['type'] ?? '') === 'note'        ? 'selected' : '' }}>筆記</option>
                 </select>
             </div>
 
@@ -88,10 +88,10 @@
             {{-- Actions --}}
             <div class="lg:col-span-1 flex items-center space-x-2">
                 <button type="submit" class="flex-1 bg-indigo-600 text-white px-4 py-2 rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors text-sm font-medium">
-                    ?? ??
+                    🔍 搜尋
                 </button>
                 <a href="{{ route('records.index') }}" class="flex-1 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 px-4 py-2 rounded-md shadow-sm hover:bg-gray-50 dark:bg-gray-900 text-center transition-colors text-sm font-medium">
-                    ?蔭
+                    重置
                 </a>
             </div>
         </div>
@@ -104,7 +104,7 @@
         const savedModuleId = "{{ $filters['module_id'] ?? '' }}";
 
         async function loadModules(projectId) {
-            moduleSel.innerHTML = '<option value="">????芋蝯???/option>';
+            moduleSel.innerHTML = '<option value="">— 所有模組 —</option>';
             if (!projectId) return;
 
             try {
@@ -126,13 +126,14 @@
                     moduleSel.appendChild(opt);
                 });
             } catch (e) {
-                // fallback: ??憭望?嚗?敶梢?
+                // fallback: 靜默失敗，不影響功能
             }
         }
 
         projectSel.addEventListener('change', () => loadModules(projectSel.value));
 
-        // ?????亙歇??project_id嚗??亙??芋蝯?        if (projectSel.value) loadModules(projectSel.value);
+        // 初始化：若已有 project_id，載入對應模組
+        if (projectSel.value) loadModules(projectSel.value);
     })();
     </script>
 
@@ -152,10 +153,10 @@
                                     'note'        => 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400',
                                 ];
                                 $typeLabels = [
-                                    'development' => '?',
-                                    'test'        => '皜祈岫',
-                                    'issue'       => '??',
-                                    'note'        => '?酉',
+                                    'development' => '開發',
+                                    'test'        => '測試',
+                                    'issue'       => '問題',
+                                    'note'        => '備註',
                                 ];
                             @endphp
                             <span class="text-xs px-2 py-0.5 rounded {{ $typeColors[$record->type] ?? 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400' }}">
@@ -172,7 +173,7 @@
                                 
                                 @if($record->ai_tool)
                                     <span class="text-xs px-1.5 py-0.5 rounded bg-purple-50 text-purple-700 border border-purple-100 flex items-center">
-                                        ?? {{ $record->ai_tool }}
+                                        🤖 {{ $record->ai_tool }}
                                     </span>
                                 @endif
                             </div>
@@ -215,7 +216,8 @@
                                         data-attachments="{{ json_encode($attachmentData) }}"
                                         @click="$dispatch('open-attachments', JSON.parse($el.dataset.attachments))"
                                         class="text-xs text-indigo-600 bg-indigo-50 dark:bg-indigo-900/50 px-2 py-0.5 rounded hover:bg-indigo-100 hover:underline">
-                                    ?? {{ $record->files->count() }} ??隞?                                </button>
+                                    📎 {{ $record->files->count() }} 個附件
+                                </button>
                             @endif
                         </div>
                         
@@ -233,7 +235,7 @@
                     <div class="flex items-center space-x-2 ml-4">
                         @if(Auth::user()->isEditor())
                             <a href="{{ route('records.edit', $record) }}"
-                               class="text-xs text-gray-400 hover:text-indigo-600">蝺刻摩</a>
+                               class="text-xs text-gray-400 hover:text-indigo-600">編輯</a>
                         @endif
                     </div>
                 </div>
@@ -243,11 +245,12 @@
                 <div class="w-16 h-16 bg-gray-50 dark:bg-gray-900 rounded-full flex items-center justify-center mb-4">
                     <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 002-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
                 </div>
-                <h3 class="text-lg font-medium text-gray-800 dark:text-gray-200 mb-1">?桀?撠蝝??/h3>
-                <p class="text-sm text-gray-500 dark:text-gray-400 mb-4">瘝??曉蝚血?璇辣???潛??矽?湔?撠?隞塚????喳遣蝡蝝??/p>
+                <h3 class="text-lg font-medium text-gray-800 dark:text-gray-200 mb-1">目前尚無紀錄</h3>
+                <p class="text-sm text-gray-500 dark:text-gray-400 mb-4">沒有找到符合條件的開發紀錄。調整搜尋條件，或者立即建立新紀錄。</p>
                 @if(Auth::user()->isEditor())
                     <a href="{{ route('records.create') }}" class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-medium text-xs text-white uppercase tracking-widest hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors">
-                        + 撱箇?蝚砌?蝑???                    </a>
+                        + 建立第一筆紀錄
+                    </a>
                 @endif
             </div>
         @endforelse
@@ -284,7 +287,7 @@
                  class="relative inline-block px-4 pt-5 pb-4 overflow-hidden text-left align-bottom transition-all transform bg-white dark:bg-gray-800 rounded-lg shadow-xl sm:my-8 sm:align-middle sm:max-w-2xl sm:w-full sm:p-6">
                 
                 <div class="flex justify-between items-start mb-5">
-                    <h3 class="text-lg font-medium leading-6 text-gray-900 dark:text-gray-100 truncate pr-4" x-text="'?辣皜嚗? + title"></h3>
+                    <h3 class="text-lg font-medium leading-6 text-gray-900 dark:text-gray-100 truncate pr-4" x-text="'附件清單：' + title"></h3>
                     <button @click="isOpen = false" class="text-gray-400 hover:text-gray-500 dark:text-gray-400">
                         <span class="text-2xl">&times;</span>
                     </button>
@@ -294,7 +297,7 @@
                     <template x-for="file in files" :key="file.id">
                         <div class="flex items-center justify-between p-3 border border-gray-100 rounded bg-gray-50 dark:bg-gray-900 hover:bg-gray-100 dark:bg-gray-700">
                             <div class="flex items-center flex-1 min-w-0">
-                                <span class="text-xl mr-3" x-text="file.ext === 'pdf' ? '??' : (file.ext === 'md' ? '??' : '??')"></span>
+                                <span class="text-xl mr-3" x-text="file.ext === 'pdf' ? '📄' : (file.ext === 'md' ? '📝' : '📎')"></span>
                                 <div class="truncate">
                                     <div class="text-sm font-medium text-gray-900 dark:text-gray-100 truncate" x-text="file.name + '.' + file.ext"></div>
                                     <div class="text-xs text-gray-500 dark:text-gray-400" x-text="file.size"></div>
@@ -305,23 +308,22 @@
                                     <a :href="file.preview_url" 
                                        target="_blank"
                                        class="px-3 py-1.5 text-xs font-medium text-indigo-600 bg-indigo-50 dark:bg-indigo-900/50 border border-indigo-200 rounded hover:bg-indigo-100">
-                                        蝺??汗
+                                        線上預覽
                                     </a>
                                 </template>
                                 <a :href="file.download_url"
                                    class="px-3 py-1.5 text-xs font-medium text-white bg-indigo-600 rounded hover:bg-indigo-700">
-                                    銝?
+                                    下載
                                 </a>
                             </div>
                         </div>
                     </template>
                     <template x-if="files.length === 0">
-                        <p class="text-sm text-center text-gray-500 dark:text-gray-400">?⊿?隞?/p>
+                        <p class="text-sm text-center text-gray-500 dark:text-gray-400">無附件</p>
                     </template>
                 </div>
             </div>
         </div>
     </div>
 </x-records-layout>
-
 

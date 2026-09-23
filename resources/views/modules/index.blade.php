@@ -1,13 +1,13 @@
-﻿<x-records-layout title="璅∠??”">
+﻿<x-records-layout title="模組列表">
     <x-slot name="header">
         <div class="flex items-center justify-between">
             <div>
-                <h2 class="text-xl font-semibold">{{ $project->name }} - 璅∠?蝞∠?</h2>
+                <h2 class="text-xl font-semibold">{{ $project->name }} - 模組管理</h2>
             </div>
             @if(Auth::user()->isEditor())
                 <a href="{{ route('projects.modules.create', $project) }}"
                    class="bg-indigo-600 text-white px-4 py-2 rounded text-sm hover:bg-indigo-700">
-                    + ?啣?璅∠?
+                    + 新增模組
                 </a>
             @endif
         </div>
@@ -18,10 +18,10 @@
             <thead class="bg-gray-50 dark:bg-gray-900 border-b">
                 <tr>
                     <th class="w-12 px-4 py-3 text-center text-gray-500 dark:text-gray-400 font-medium"></th>
-                    <th class="px-4 py-3 text-left text-gray-500 dark:text-gray-400 font-medium">?迂</th>
-                    <th class="px-4 py-3 text-left text-gray-500 dark:text-gray-400 font-medium">?膩</th>
-                    <th class="px-4 py-3 text-left text-gray-500 dark:text-gray-400 font-medium">???/th>
-                    <th class="px-4 py-3 text-left text-gray-500 dark:text-gray-400 font-medium">??</th>
+                    <th class="px-4 py-3 text-left text-gray-500 dark:text-gray-400 font-medium">名稱</th>
+                    <th class="px-4 py-3 text-left text-gray-500 dark:text-gray-400 font-medium">描述</th>
+                    <th class="px-4 py-3 text-left text-gray-500 dark:text-gray-400 font-medium">狀態</th>
+                    <th class="px-4 py-3 text-left text-gray-500 dark:text-gray-400 font-medium">操作</th>
                 </tr>
             </thead>
             <tbody id="sortable-modules-table" class="divide-y divide-gray-100 dark:divide-gray-800">
@@ -34,23 +34,23 @@
                         <td class="px-4 py-3 text-gray-500 dark:text-gray-400">{{ Str::limit($module->description, 60) }}</td>
                         <td class="px-4 py-3">
                             @if($module->status === 'active')
-                                <span class="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded">?</span>
+                                <span class="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded">啟用</span>
                             @else
-                                <span class="text-xs bg-gray-200 text-gray-600 dark:text-gray-400 px-2 py-0.5 rounded">撠?</span>
+                                <span class="text-xs bg-gray-200 text-gray-600 dark:text-gray-400 px-2 py-0.5 rounded">封存</span>
                             @endif
                         </td>
                         <td class="px-4 py-3 space-x-2">
-                            <a href="{{ route('modules.show', $module) }}" class="text-indigo-600 hover:underline">?辣</a>
+                            <a href="{{ route('modules.show', $module) }}" class="text-indigo-600 hover:underline">附件</a>
                             <a href="{{ route('records.index', ['project_id' => $project->id, 'module_id' => $module->id]) }}"
-                               class="text-indigo-600 hover:underline">蝝??/a>
+                               class="text-indigo-600 hover:underline">紀錄</a>
                             @if(Auth::user()->isEditor())
-                                <a href="{{ route('modules.edit', $module) }}" class="text-gray-500 dark:text-gray-400 hover:text-indigo-600">蝺刻摩</a>
+                                <a href="{{ route('modules.edit', $module) }}" class="text-gray-500 dark:text-gray-400 hover:text-indigo-600">編輯</a>
                             @endif
                         </td>
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="5" class="px-4 py-8 text-center text-gray-400">撠璅∠?</td>
+                        <td colspan="5" class="px-4 py-8 text-center text-gray-400">尚無模組</td>
                     </tr>
                 @endforelse
             </tbody>
@@ -58,7 +58,7 @@
     </div>
 
     <div class="mt-4">
-        <a href="{{ route('projects.show', $project) }}" class="text-sm text-gray-500 dark:text-gray-400 hover:underline">??餈?撠?</a>
+        <a href="{{ route('projects.show', $project) }}" class="text-sm text-gray-500 dark:text-gray-400 hover:underline">← 返回專案</a>
     </div>
 
     @push('scripts')
@@ -83,9 +83,9 @@
                             body: JSON.stringify({ order: order })
                         }).then(response => {
                             if(response.ok) {
-                                window.dispatchEvent(new CustomEvent('flash-toast', { detail: { type: 'success', message: '璅∠???撌脫?? } }));
+                                window.dispatchEvent(new CustomEvent('flash-toast', { detail: { type: 'success', message: '模組排序已更新' } }));
                             } else {
-                                window.dispatchEvent(new CustomEvent('flash-toast', { detail: { type: 'error', message: '甈?銝雲??啣仃?? } }));
+                                window.dispatchEvent(new CustomEvent('flash-toast', { detail: { type: 'error', message: '權限不足或更新失敗' } }));
                             }
                         });
                     },
@@ -95,5 +95,4 @@
     </script>
     @endpush
 </x-records-layout>
-
 

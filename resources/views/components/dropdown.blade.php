@@ -42,4 +42,3 @@ switch ($width) {
     </div>
 </div>
 
-

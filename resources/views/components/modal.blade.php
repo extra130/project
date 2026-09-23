@@ -77,4 +77,3 @@ $maxWidth = [
     </div>
 </div>
 
-

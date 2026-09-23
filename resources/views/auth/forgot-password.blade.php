@@ -24,4 +24,3 @@
     </form>
 </x-guest-layout>
 
-

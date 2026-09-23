@@ -30,4 +30,3 @@
     </div>
 </x-guest-layout>
 
-
