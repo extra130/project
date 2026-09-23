@@ -1,9 +1,9 @@
-﻿{{--
+{{--
     records-layout.blade.php (Modernized)
     Responsive layout with Alpine.js off-canvas sidebar, SVG Heroicons, and Toast notifications.
 --}}
 <!DOCTYPE html>
-<html lang="zh-Hant">
+<html lang="zh-Hant" x-data="{ darkMode: localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches) }" x-init="$watch('darkMode', val => { localStorage.setItem('theme', val ? 'dark' : 'light'); if(val) document.documentElement.classList.add('dark'); else document.documentElement.classList.remove('dark'); })" :class="{ 'dark': darkMode }">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,6 +11,13 @@
     <title>{{ config('app.name') }} - {{ $title ?? '首頁' }}</title>
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet"/>
+    <script>
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    </script>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @stack('styles')
 </head>
