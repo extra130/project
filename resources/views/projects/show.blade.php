@@ -1,14 +1,14 @@
-<x-records-layout :title="$project->name">
+﻿<x-records-layout :title="$project->name">
     <x-slot name="header">
         <div class="flex items-center justify-between">
             <div>
                 <h2 class="text-xl font-semibold">{{ $project->name }}</h2>
-                <p class="text-sm text-gray-500 mt-0.5">{{ $project->description }}</p>
+                <p class="text-sm text-gray-500 dark:text-gray-400 mt-0.5">{{ $project->description }}</p>
             </div>
             @if(Auth::user()->isEditor())
                 <a href="{{ route('projects.edit', $project) }}"
-                   class="border border-gray-300 px-3 py-1.5 rounded text-sm hover:bg-gray-50">
-                    編輯
+                   class="border border-gray-300 dark:border-gray-600 px-3 py-1.5 rounded text-sm hover:bg-gray-50 dark:bg-gray-900">
+                    蝺刻摩
                 </a>
             @endif
         </div>
@@ -20,21 +20,21 @@
             {{-- Modules --}}
             <div>
                 <div class="flex items-center justify-between mb-4">
-                    <h3 class="font-semibold text-gray-700">模組列表</h3>
+                    <h3 class="font-semibold text-gray-700 dark:text-gray-300">璅∠??”</h3>
                     @if(Auth::user()->isEditor())
                         <a href="{{ route('projects.modules.create', $project) }}"
                            class="text-sm bg-indigo-600 text-white px-3 py-1 rounded hover:bg-indigo-700">
-                            + 新增模組
+                            + ?啣?璅∠?
                         </a>
                     @endif
                 </div>
 
                 <div id="sortable-modules" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     @forelse($project->modules as $module)
-                            <div data-id="{{ $module->id }}" class="bg-white rounded-lg shadow-sm p-5 border-l-4 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md relative
-                                {{ $module->status === 'active' ? 'border-indigo-400' : 'border-gray-300' }}">
+                            <div data-id="{{ $module->id }}" class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-5 border-l-4 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md relative
+                                {{ $module->status === 'active' ? 'border-indigo-400' : 'border-gray-300 dark:border-gray-600' }}">
                                 @if(Auth::user()->isEditor())
-                                    <div class="absolute top-3 right-3 cursor-move text-gray-300 hover:text-gray-500">
+                                    <div class="absolute top-3 right-3 cursor-move text-gray-300 hover:text-gray-500 dark:text-gray-400">
                                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8h16M4 16h16"></path></svg>
                                     </div>
                                 @endif
@@ -42,23 +42,23 @@
                                     <svg class="w-5 h-5 mr-2 text-indigo-500 group-hover:text-indigo-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 002-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
                                     {{ $module->name }}
                                 </a>
-                                <div class="text-xs text-gray-500 mt-2 truncate">{{ $module->description ?? '無描述' }}</div>
+                                <div class="text-xs text-gray-500 dark:text-gray-400 mt-2 truncate">{{ $module->description ?? '?⊥?餈? }}</div>
                                 <div class="mt-4 flex items-center space-x-3 text-xs">
                                     <a href="{{ route('modules.show', $module) }}"
-                                       class="text-indigo-600 hover:text-indigo-800 font-medium">附件總覽</a>
+                                       class="text-indigo-600 hover:text-indigo-800 font-medium">?辣蝮質汗</a>
                                     <span class="text-gray-300">|</span>
                                     <a href="{{ route('records.index', ['project_id' => $project->id, 'module_id' => $module->id]) }}"
-                                       class="text-indigo-600 hover:text-indigo-800 font-medium">所有紀錄</a>
+                                       class="text-indigo-600 hover:text-indigo-800 font-medium">?????/a>
                                     @if(Auth::user()->isEditor())
                                         <span class="text-gray-300">|</span>
-                                        <a href="{{ route('modules.edit', $module) }}" class="text-gray-400 hover:text-gray-600">編輯</a>
+                                        <a href="{{ route('modules.edit', $module) }}" class="text-gray-400 hover:text-gray-600 dark:text-gray-400">蝺刻摩</a>
                                     @endif
                                 </div>
                             </div>
                     @empty
-                        <div class="col-span-2 text-center text-gray-400 py-12 bg-white rounded shadow-sm flex flex-col items-center">
+                        <div class="col-span-2 text-center text-gray-400 py-12 bg-white dark:bg-gray-800 rounded shadow-sm flex flex-col items-center">
                             <svg class="w-10 h-10 text-gray-300 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"></path></svg>
-                            尚無模組
+                            撠璅∠?
                         </div>
                     @endforelse
                 </div>
@@ -66,20 +66,18 @@
 
             {{-- Recent records --}}
             <div>
-                <h3 class="font-semibold text-gray-700 mb-3">最近紀錄</h3>
+                <h3 class="font-semibold text-gray-700 dark:text-gray-300 mb-3">?餈???/h3>
                 <a href="{{ route('records.index', ['project_id' => $project->id]) }}"
                    class="inline-block text-sm text-indigo-600 hover:underline">
-                    查看此專案所有紀錄 →
-                </a>
+                    ?亦?甇文?獢???????                </a>
             </div>
         </div>
 
         {{-- ========== Project Attachments Sidebar ========== --}}
         <div class="space-y-4">
-            <div class="bg-white rounded shadow-sm p-4">
-                <h3 class="text-sm font-medium text-gray-700 mb-3">
-                    專案文件（{{ $project->files->count() }}）
-                </h3>
+            <div class="bg-white dark:bg-gray-800 rounded shadow-sm p-4">
+                <h3 class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
+                    撠??辣嚗{ $project->files->count() }}嚗?                </h3>
 
                 @if(Auth::user()->isEditor())
                     <form method="POST"
@@ -87,19 +85,18 @@
                           enctype="multipart/form-data"
                           class="mb-4">
                         @csrf
-                        <label class="block text-xs font-medium text-gray-500 mb-1">
-                            新增文件（可多選上傳）
-                        </label>
+                        <label class="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">
+                            ?啣??辣嚗憭銝嚗?                        </label>
                         <input type="file" name="files[]" multiple
-                               class="block w-full text-sm text-gray-600
+                               class="block w-full text-sm text-gray-600 dark:text-gray-400
                                       file:mr-3 file:py-1 file:px-3
                                       file:rounded file:border-0
                                       file:text-xs file:font-medium
-                                      file:bg-indigo-50 file:text-indigo-700
+                                      file:bg-indigo-50 dark:bg-indigo-900/50 file:text-indigo-700
                                       hover:file:bg-indigo-100 mb-2">
                         <button type="submit"
                                 class="w-full bg-indigo-600 text-white text-xs px-3 py-1.5 rounded hover:bg-indigo-700">
-                            ↑ 上傳
+                            ??銝
                         </button>
                     </form>
                     <hr class="border-gray-100 mb-3">
@@ -108,36 +105,36 @@
                 <div class="space-y-3">
                     @forelse($project->files as $file)
                         <div class="border border-gray-100 rounded p-3 text-sm">
-                            <div class="font-medium text-gray-800 truncate" title="{{ $file->display_name }}">
+                            <div class="font-medium text-gray-800 dark:text-gray-200 truncate" title="{{ $file->display_name }}">
                                 {{ $file->display_name }}
                             </div>
                             <div class="text-xs text-gray-400 mt-1">
                                 {{ strtoupper($file->extension) }}
-                                · {{ number_format($file->file_size / 1024, 1) }} KB
+                                繚 {{ number_format($file->file_size / 1024, 1) }} KB
                             </div>
 
                               <div class="flex items-center space-x-3 mt-2 pt-2 border-t border-gray-50">
                                   @if(in_array(strtolower($file->extension), ['pdf', 'html', 'htm', 'md', 'markdown', 'jpg', 'jpeg', 'png', 'gif', 'webp', 'svg', 'drawio']))
                                       <a href="{{ route('project-files.preview', $file) }}"
                                          target="_blank"
-                                         class="text-xs text-blue-600 hover:underline">👁 預覽</a>
+                                         class="text-xs text-blue-600 hover:underline">?? ?汗</a>
                                   @endif
                                   <a href="{{ route('project-files.download', $file) }}"
-                                     class="text-xs text-indigo-600 hover:underline">⬇ 下載</a>
+                                     class="text-xs text-indigo-600 hover:underline">漎?銝?</a>
                                 @if(Auth::user()->isEditor())
                                     <form method="POST" action="{{ route('project-files.destroy', $file) }}"
-                                          onsubmit="return confirm('確定刪除此文件？')"
+                                          onsubmit="return confirm('蝣箏??芷甇斗?隞塚?')"
                                           class="inline">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit"
-                                                class="text-xs text-red-400 hover:text-red-600">✕ 刪除</button>
+                                                class="text-xs text-red-400 hover:text-red-600">???芷</button>
                                     </form>
                                 @endif
                             </div>
                         </div>
                     @empty
-                        <p class="text-xs text-gray-400 text-center py-4">尚無專案文件</p>
+                        <p class="text-xs text-gray-400 text-center py-4">撠撠??辣</p>
                     @endforelse
                 </div>
             </div>
@@ -152,7 +149,7 @@
                 new Sortable(el, {
                     animation: 150,
                     handle: '.cursor-move',
-                    ghostClass: 'bg-indigo-50',
+                    ghostClass: 'bg-indigo-50 dark:bg-indigo-900/50',
                     onEnd: function (evt) {
                         const order = Array.from(el.children).map(card => card.dataset.id).filter(id => id);
                         
@@ -165,9 +162,9 @@
                             body: JSON.stringify({ order: order })
                         }).then(response => {
                             if(response.ok) {
-                                window.dispatchEvent(new CustomEvent('flash-toast', { detail: { type: 'success', message: '模組排序已更新' } }));
+                                window.dispatchEvent(new CustomEvent('flash-toast', { detail: { type: 'success', message: '璅∠???撌脫?? } }));
                             } else {
-                                window.dispatchEvent(new CustomEvent('flash-toast', { detail: { type: 'error', message: '權限不足或更新失敗' } }));
+                                window.dispatchEvent(new CustomEvent('flash-toast', { detail: { type: 'error', message: '甈?銝雲??啣仃?? } }));
                             }
                         });
                     },
@@ -177,3 +174,5 @@
     </script>
     @endpush
 </x-records-layout>
+
+

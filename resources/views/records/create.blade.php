@@ -1,9 +1,9 @@
-<x-records-layout title="新增紀錄">
+﻿<x-records-layout title="?啣?蝝??>
     <x-slot name="header">
-        <h2 class="text-xl font-semibold">新增紀錄</h2>
+        <h2 class="text-xl font-semibold">?啣?蝝??/h2>
     </x-slot>
 
-    <div class="bg-white rounded shadow-sm p-6 max-w-3xl">
+    <div class="bg-white dark:bg-gray-800 rounded shadow-sm p-6 max-w-3xl">
         <form method="POST" action="{{ route('records.store') }}" enctype="multipart/form-data">
             @csrf
 
@@ -11,10 +11,10 @@
 
                 {{-- Project --}}
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">專案 *</label>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">撠? *</label>
                     <select name="project_id" required
-                            class="w-full border border-gray-300 rounded px-3 py-2 text-sm">
-                        <option value="">— 選擇專案 —</option>
+                            class="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 text-sm">
+                        <option value="">???豢?撠? ??/option>
                         @foreach($projects as $p)
                             <option value="{{ $p->id }}"
                                 {{ (old('project_id', $selectedProject?->id) == $p->id) ? 'selected' : '' }}>
@@ -27,9 +27,9 @@
 
                 {{-- Module --}}
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">模組</label>
-                    <select name="module_id" class="w-full border border-gray-300 rounded px-3 py-2 text-sm">
-                        <option value="">— 不指定模組 —</option>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">璅∠?</label>
+                    <select name="module_id" class="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 text-sm">
+                        <option value="">??銝?摰芋蝯???/option>
                         @foreach($modules as $m)
                             <option value="{{ $m->id }}" {{ old('module_id') == $m->id ? 'selected' : '' }}>
                                 {{ $m->name }}
@@ -40,20 +40,20 @@
 
                 {{-- Type --}}
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">類型 *</label>
-                    <select name="type" required class="w-full border border-gray-300 rounded px-3 py-2 text-sm">
-                        <option value="development" {{ old('type','development')==='development'?'selected':'' }}>開發紀錄</option>
-                        <option value="test" {{ old('type')==='test'?'selected':'' }}>測試紀錄</option>
-                        <option value="issue" {{ old('type')==='issue'?'selected':'' }}>問題紀錄</option>
-                        <option value="note" {{ old('type')==='note'?'selected':'' }}>人工備註</option>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">憿? *</label>
+                    <select name="type" required class="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 text-sm">
+                        <option value="development" {{ old('type','development')==='development'?'selected':'' }}>?蝝??/option>
+                        <option value="test" {{ old('type')==='test'?'selected':'' }}>皜祈岫蝝??/option>
+                        <option value="issue" {{ old('type')==='issue'?'selected':'' }}>??蝝??/option>
+                        <option value="note" {{ old('type')==='note'?'selected':'' }}>鈭箏極?酉</option>
                     </select>
                 </div>
 
                 {{-- Source --}}
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">來源 *</label>
-                    <select name="source" required class="w-full border border-gray-300 rounded px-3 py-2 text-sm">
-                        <option value="manual" {{ old('source','manual')==='manual'?'selected':'' }}>人工</option>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">靘? *</label>
+                    <select name="source" required class="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 text-sm">
+                        <option value="manual" {{ old('source','manual')==='manual'?'selected':'' }}>鈭箏極</option>
                         <option value="codex" {{ old('source')==='codex'?'selected':'' }}>Codex</option>
                         <option value="agent" {{ old('source')==='agent'?'selected':'' }}>Agent</option>
                         <option value="api" {{ old('source')==='api'?'selected':'' }}>API</option>
@@ -62,70 +62,72 @@
 
                 {{-- AI Tool --}}
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">使用 AI</label>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">雿輻 AI</label>
                     <input type="text" name="ai_tool" value="{{ old('ai_tool') }}"
-                           class="w-full border border-gray-300 rounded px-3 py-2 text-sm" placeholder="例如：ChatGPT, Gemini">
+                           class="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 text-sm" placeholder="靘?嚗hatGPT, Gemini">
                 </div>
 
                 {{-- Git Branch --}}
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Git Branch</label>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Git Branch</label>
                     <input type="text" name="git_branch" value="{{ old('git_branch') }}"
-                           class="w-full border border-gray-300 rounded px-3 py-2 text-sm" placeholder="develop">
+                           class="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 text-sm" placeholder="develop">
                 </div>
 
                 {{-- Git Commit --}}
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Git Commit</label>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Git Commit</label>
                     <input type="text" name="git_commit" value="{{ old('git_commit') }}"
-                           class="w-full border border-gray-300 rounded px-3 py-2 text-sm" placeholder="abc123">
+                           class="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 text-sm" placeholder="abc123">
                 </div>
 
                 {{-- Tags --}}
                 <div class="sm:col-span-2">
-                    <label class="block text-sm font-medium text-gray-700 mb-1">標籤 (Tags)</label>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">璅惜 (Tags)</label>
                     <input type="text" name="tags_input" value="{{ old('tags_input') }}"
-                           class="w-full border border-gray-300 rounded px-3 py-2 text-sm" placeholder="API, 資安, 資料庫優化 (多個請用逗號分隔)">
+                           class="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 text-sm" placeholder="API, 鞈?, 鞈?摨怠??(憭??券???)">
                 </div>
             </div>
 
             {{-- Title --}}
             <div class="mb-4">
-                <label class="block text-sm font-medium text-gray-700 mb-1">標題 *</label>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">璅? *</label>
                 <input type="text" name="title" value="{{ old('title') }}"
-                       class="w-full border border-gray-300 rounded px-3 py-2 text-sm" required maxlength="255">
+                       class="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 text-sm" required maxlength="255">
                 @error('title')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
             </div>
 
             {{-- Content --}}
             <div class="mb-6">
-                <label class="block text-sm font-medium text-gray-700 mb-1">內容 *</label>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">?批捆 *</label>
                 <textarea name="content" rows="12" required
-                          class="w-full border border-gray-300 rounded px-3 py-2 text-sm font-mono"
-                          placeholder="修改原因：&#10;...&#10;&#10;修改內容：&#10;...&#10;&#10;影響範圍：&#10;...">{{ old('content') }}</textarea>
+                          class="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 text-sm font-mono"
+                          placeholder="靽格??嚗?#10;...&#10;&#10;靽格?批捆嚗?#10;...&#10;&#10;敶梢蝭?嚗?#10;...">{{ old('content') }}</textarea>
                 @error('content')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
             </div>
 
             {{-- Upload Files --}}
-            <div class="mb-6 p-4 bg-gray-50 border border-gray-100 rounded">
-                <label class="block text-sm font-medium text-gray-700 mb-2">附件上傳 (可選)</label>
+            <div class="mb-6 p-4 bg-gray-50 dark:bg-gray-900 border border-gray-100 rounded">
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">?辣銝 (?舫)</label>
                 <input type="file" name="files[]" multiple
-                       class="block w-full text-sm text-gray-600
+                       class="block w-full text-sm text-gray-600 dark:text-gray-400
                               file:mr-3 file:py-1.5 file:px-3
                               file:rounded file:border-0
                               file:text-sm file:font-medium
-                              file:bg-indigo-50 file:text-indigo-700
+                              file:bg-indigo-50 dark:bg-indigo-900/50 file:text-indigo-700
                               hover:file:bg-indigo-100">
-                <p class="text-xs text-gray-500 mt-2">可一次選擇多個檔案上傳（建立後也可在專屬頁面無限追加）</p>
+                <p class="text-xs text-gray-500 dark:text-gray-400 mt-2">?臭?甈⊿????獢??喉?撱箇?敺??臬撠惇??⊿?餈賢?嚗?/p>
                 @error('files.*')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
             </div>
 
             <div class="flex items-center space-x-3">
                 <button type="submit" class="bg-indigo-600 text-white px-5 py-2 rounded text-sm hover:bg-indigo-700">
-                    建立
+                    撱箇?
                 </button>
-                <a href="{{ route('records.index') }}" class="text-gray-500 text-sm hover:underline">取消</a>
+                <a href="{{ route('records.index') }}" class="text-gray-500 dark:text-gray-400 text-sm hover:underline">??</a>
             </div>
         </form>
     </div>
 </x-records-layout>
+
+
