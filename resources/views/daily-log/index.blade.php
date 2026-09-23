@@ -52,9 +52,9 @@
                                         <div class="flex items-center space-x-2 mb-2">
                                             @php
                                                 $typeColors = [
-                                                    'development' => 'bg-blue-100 text-blue-800 print:border-blue-800',
-                                                    'test'        => 'bg-green-100 text-green-800 print:border-green-800',
-                                                    'issue'       => 'bg-red-100 text-red-800 print:border-red-800',
+                                                    'development' => 'bg-blue-100 dark:bg-blue-900/40 text-blue-800 dark:text-blue-300 print:border-blue-800',
+                                                    'test'        => 'bg-green-100 dark:bg-green-900/40 text-green-800 dark:text-green-300 print:border-green-800',
+                                                    'issue'       => 'bg-red-100 dark:bg-red-900/40 text-red-800 dark:text-red-300 print:border-red-800',
                                                     'note'        => 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 print:border-gray-800',
                                                 ];
                                                 $typeLabels = [
@@ -71,14 +71,14 @@
                                             
                                             {{-- 模組名稱 --}}
                                             @if($record->module)
-                                                <span class="text-xs text-gray-500 dark:text-gray-400 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 px-2 py-0.5 rounded">
+                                                <span class="text-xs text-gray-600 dark:text-gray-400 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 px-2 py-0.5 rounded">
                                                     🗂 {{ $record->module->name }}
                                                 </span>
                                             @endif
 
                                             {{-- 使用 AI --}}
                                             @if($record->ai_tool)
-                                                <span class="text-xs text-purple-700 bg-purple-50 border border-purple-100 px-2 py-0.5 rounded font-medium">
+                                                <span class="text-xs text-purple-700 dark:text-purple-400 bg-purple-50 dark:bg-purple-900/30 border border-purple-100 dark:border-purple-800 px-2 py-0.5 rounded font-medium">
                                                     🤖 {{ $record->ai_tool }}
                                                 </span>
                                             @endif
@@ -150,6 +150,8 @@
     </script>
     @endpush
 </x-records-layout>
+
+
 
 
 

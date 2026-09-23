@@ -60,7 +60,7 @@ $maxWidth = [
         x-transition:leave-start="opacity-100"
         x-transition:leave-end="opacity-0"
     >
-        <div class="absolute inset-0 bg-gray-50 dark:bg-gray-9000 opacity-75"></div>
+        <div class="absolute inset-0 bg-gray-50 dark:bg-gray-900 opacity-75"></div>
     </div>
 
     <div
@@ -76,4 +76,6 @@ $maxWidth = [
         {{ $slot }}
     </div>
 </div>
+
+
 

@@ -80,7 +80,7 @@
                                 {{ $record->type === 'development' ? 'bg-blue-500' : '' }}
                                 {{ $record->type === 'test' ? 'bg-green-50 dark:bg-green-900/500' : '' }}
                                 {{ $record->type === 'issue' ? 'bg-red-50 dark:bg-red-900/500' : '' }}
-                                {{ $record->type === 'note' ? 'bg-gray-50 dark:bg-gray-9000' : '' }}">
+                                {{ $record->type === 'note' ? 'bg-gray-50 dark:bg-gray-900' : '' }}">
                             </div>
                             <div>
                                 <span class="text-xs font-bold text-indigo-600 mr-2 bg-indigo-100 px-2 py-0.5 rounded-full">{{ $record->project->name }}</span>
@@ -175,4 +175,6 @@
     </script>
     @endpush
 </x-records-layout>
+
+
 

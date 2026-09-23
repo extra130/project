@@ -1,4 +1,4 @@
-{{--
+﻿{{--
     records-layout.blade.php (Modernized)
     Responsive layout with Alpine.js off-canvas sidebar, SVG Heroicons, and Toast notifications.
 --}}
@@ -274,5 +274,7 @@
 @stack('scripts')
 </body>
 </html>
+
+
 
 

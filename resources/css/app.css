@@ -1,6 +1,30 @@
-@tailwind base;
+﻿@tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+    /* Form Elements Auto Dark Mode */
+    input[type='text'],
+    input[type='email'],
+    input[type='password'],
+    input[type='number'],
+    input[type='date'],
+    input[type='search'],
+    textarea,
+    select {
+        @apply dark:bg-gray-900 dark:border-gray-700 dark:text-gray-100 dark:focus:border-indigo-500 dark:focus:ring-indigo-500;
+    }
+    
+    /* Global Prose Dark Mode */
+    .prose {
+        @apply dark:prose-invert;
+    }
+
+    /* Fallback standard text colors for generic containers if missed by regex */
+    body.dark {
+        @apply bg-gray-900 text-gray-200;
+    }
+}
 
 /* Custom Scrollbar for a modern UX */
 ::-webkit-scrollbar {
@@ -16,4 +40,12 @@
 }
 ::-webkit-scrollbar-thumb:hover {
     background: #94a3b8; 
+}
+
+/* Dark Mode Scrollbar */
+.dark ::-webkit-scrollbar-thumb {
+    background: #475569;
+}
+.dark ::-webkit-scrollbar-thumb:hover {
+    background: #64748b;
 }

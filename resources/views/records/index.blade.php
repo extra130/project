@@ -147,9 +147,9 @@
                             {{-- Type badge --}}
                             @php
                                 $typeColors = [
-                                    'development' => 'bg-blue-100 text-blue-700',
-                                    'test'        => 'bg-green-100 text-green-700',
-                                    'issue'       => 'bg-red-100 text-red-700',
+                                    'development' => 'bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300',
+                                    'test'        => 'bg-green-100 dark:bg-green-900/40 text-green-700 dark:text-green-300',
+                                    'issue'       => 'bg-red-100 dark:bg-red-900/40 text-red-700 dark:text-red-300',
                                     'note'        => 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400',
                                 ];
                                 $typeLabels = [
@@ -166,7 +166,7 @@
                             {{-- Source / AI --}}
                             <div class="flex items-center space-x-1">
                                 @if($record->source !== 'manual')
-                                    <span class="text-xs px-2 py-0.5 rounded bg-yellow-50 text-yellow-700 border border-yellow-100">
+                                    <span class="text-xs px-2 py-0.5 rounded bg-yellow-50 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-400 border border-yellow-100 dark:border-yellow-800">
                                         {{ strtoupper($record->source) }}
                                     </span>
                                 @endif
@@ -279,7 +279,7 @@
         <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:p-0">
             <div x-show="isOpen" 
                  x-transition.opacity
-                 class="fixed inset-0 transition-opacity bg-gray-50 dark:bg-gray-9000 bg-opacity-75" 
+                 class="fixed inset-0 transition-opacity bg-gray-50 dark:bg-gray-900 bg-opacity-75" 
                  @click="isOpen = false"></div>
 
             <div x-show="isOpen"
@@ -326,4 +326,6 @@
         </div>
     </div>
 </x-records-layout>
+
+
 
