@@ -38,11 +38,12 @@
                 <button type="submit" class="bg-indigo-600 text-white px-5 py-2 rounded text-sm hover:bg-indigo-700">
                     建立
                 </button>
-                <a href="{{ route('projects.modules.index', $project) }}" class="text-gray-500 dark:text-gray-400 text-sm hover:underline">取消</a>
+                <a href="{{ route('projects.show', $project) }}" class="text-gray-500 dark:text-gray-400 text-sm hover:underline">取消</a>
             </div>
         </form>
     </div>
 </x-records-layout>
+
 
 
 
