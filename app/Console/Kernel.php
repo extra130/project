@@ -15,6 +15,7 @@ class Kernel extends ConsoleKernel
         // $schedule->command('inspire')->hourly();
         
         // 每 3 小時執行一次資料庫備份 (產出至 local 及 google 磁碟)
+        $schedule->command('backup:clean')->daily();
         $schedule->command('backup:run --only-db')->everyThreeHours();
     }
 
@@ -28,4 +29,5 @@ class Kernel extends ConsoleKernel
         require base_path('routes/console.php');
     }
 }
+
 
