@@ -33,12 +33,14 @@
                     @forelse($project->modules as $module)
                             <div data-id="{{ $module->id }}" class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-5 border-l-4 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md relative
                                 {{ $module->status === 'active' ? 'border-indigo-400' : 'border-gray-300 dark:border-gray-600' }}">
+                                <div class="flex items-start">
                                 @if(Auth::user()->isEditor())
-                                    <div class="absolute top-3 right-3 cursor-move text-gray-300 hover:text-gray-500 dark:text-gray-400">
+                                    <div class="cursor-move text-gray-400 hover:text-indigo-600 dark:text-gray-500 mr-2 mt-1" title="拖曳排序">
                                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8h16M4 16h16"></path></svg>
                                     </div>
                                 @endif
-                                <a href="{{ route('modules.show', $module) }}" class="font-medium text-lg text-indigo-700 hover:text-indigo-900 flex items-center group pr-6">
+                                <div class="flex-1">
+                                    <a href="{{ route('modules.show', $module) }}" class="font-medium text-lg text-indigo-700 hover:text-indigo-900 flex items-center group">
                                     <svg class="w-5 h-5 mr-2 text-indigo-500 group-hover:text-indigo-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 002-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
                                     {{ $module->name }}
                                 </a>
@@ -54,6 +56,8 @@
                                         <a href="{{ route('modules.edit', $module) }}" class="text-gray-400 hover:text-gray-600 dark:text-gray-400">編輯</a>
                                     @endif
                                 </div>
+                            </div>
+                            </div>
                             </div>
                     @empty
                         <div class="col-span-2 text-center text-gray-400 py-12 bg-white dark:bg-gray-800 rounded shadow-sm flex flex-col items-center">
@@ -177,6 +181,7 @@
     </script>
     @endpush
 </x-records-layout>
+
 
 
 
