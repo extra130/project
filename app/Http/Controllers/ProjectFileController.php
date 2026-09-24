@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 namespace App\Http\Controllers;
 
@@ -25,7 +25,12 @@ class ProjectFileController extends Controller
 
         $request->validate([
             'files'   => 'required|array',
-            'files.*' => 'file|max:20480', // 20MB max per file
+            'files.*' => ['file', 'max:20480', function ($attribute, $value, $fail) {
+                $ext = strtolower($value->getClientOriginalExtension());
+                if (in_array($ext, ['html', 'htm', 'svg', 'php', 'php5', 'phtml', 'exe', 'sh', 'bat', 'js'])) {
+                    $fail('基於安全性考量，禁止上傳該類型的檔案。');
+                }
+            }],
         ]);
 
         $this->fileService->storeFiles($project, $request->file('files'), Auth::id());
@@ -102,3 +107,4 @@ class ProjectFileController extends Controller
         return back()->with('success', '專案檔案已刪除。');
     }
 }
+

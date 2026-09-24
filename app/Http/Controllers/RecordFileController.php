@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 namespace App\Http\Controllers;
 
@@ -29,7 +29,12 @@ class RecordFileController extends Controller
 
         $request->validate([
             'files'   => 'required|array',
-            'files.*' => 'file',
+            'files.*' => ['file', function ($attribute, $value, $fail) {
+                $ext = strtolower($value->getClientOriginalExtension());
+                if (in_array($ext, ['html', 'htm', 'svg', 'php', 'php5', 'phtml', 'exe', 'sh', 'bat', 'js'])) {
+                    $fail('基於安全性考量，禁止上傳該類型的檔案。');
+                }
+            }],
         ]);
 
         $this->fileService->storeFiles(
@@ -154,3 +159,4 @@ class RecordFileController extends Controller
     }
 
 }
+
