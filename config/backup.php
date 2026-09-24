@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 
 return [
 
@@ -152,6 +152,7 @@ return [
              */
             'disks' => [
                 'local',
+                'google',
             ],
         ],
 
@@ -339,6 +340,7 @@ return [
     ],
 
 ];
+
 
 
 
