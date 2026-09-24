@@ -30,6 +30,11 @@ return [
 
     'disks' => [
 
+        'd_backup' => [
+            'driver' => 'local',
+            'root' => 'D:\DB_Backups\project_records',
+        ],
+
         'google' => [
             'driver' => 'google',
             'clientId' => env('GOOGLE_DRIVE_CLIENT_ID'),
@@ -82,5 +87,6 @@ return [
     ],
 
 ];
+
 
 
