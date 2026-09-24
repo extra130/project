@@ -1,4 +1,4 @@
-﻿<x-records-layout :title="$project->name">
+<x-records-layout :title="$project->name">
     <x-slot name="header">
         <div class="flex items-center justify-between">
             <div>
@@ -31,7 +31,7 @@
 
                 <div id="sortable-modules" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     @forelse($project->modules as $module)
-                            <div data-id="{{ $module->id }}" class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-5 border-l-4 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md relative
+                            <div data-id="{{ $module->id }}" class="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-5 border-l-4 transition-shadow duration-200 hover:shadow-md cursor-grab active:cursor-grabbing relative
                                 {{ $module->status === 'active' ? 'border-indigo-400' : 'border-gray-300 dark:border-gray-600' }}">
                                 <div class="flex items-start">
                                 @if(Auth::user()->isEditor())
@@ -155,7 +155,9 @@
             if (el) {
                 new Sortable(el, {
                     animation: 150,
-                    handle: '.cursor-move',
+                    
+                    filter: 'a, button',
+                    preventOnFilter: false,
                     ghostClass: 'bg-indigo-50 dark:bg-indigo-900/50',
                     onEnd: function (evt) {
                         const order = Array.from(el.children).map(card => card.dataset.id).filter(id => id);
@@ -181,6 +183,9 @@
     </script>
     @endpush
 </x-records-layout>
+
+
+
 
 
 
