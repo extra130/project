@@ -148,41 +148,39 @@
         </div>
     </div>
     @push('scripts')
-    <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.2/Sortable.min.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const el = document.getElementById('sortable-modules');
-            if (el) {
-                new Sortable(el, {
-                    animation: 150,
+        const el = document.getElementById('sortable-modules');
+        if (el && typeof Sortable !== 'undefined') {
+            new Sortable(el, {
+                animation: 150,
+                ghostClass: 'bg-indigo-50',
+                onEnd: function (evt) {
+                    const order = Array.from(el.children).map(card => card.dataset.id).filter(id => id);
                     
-                    filter: 'a, button',
-                    preventOnFilter: false,
-                    ghostClass: 'bg-indigo-50 dark:bg-indigo-900/50',
-                    onEnd: function (evt) {
-                        const order = Array.from(el.children).map(card => card.dataset.id).filter(id => id);
-                        
-                        fetch('{{ route('modules.reorder') }}', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                            },
-                            body: JSON.stringify({ order: order })
-                        }).then(response => {
-                            if(response.ok) {
-                                window.dispatchEvent(new CustomEvent('flash-toast', { detail: { type: 'success', message: '模組排序已更新' } }));
-                            } else {
-                                window.dispatchEvent(new CustomEvent('flash-toast', { detail: { type: 'error', message: '權限不足或更新失敗' } }));
-                            }
-                        });
-                    },
-                });
-            }
-        });
+                    fetch('{{ route("modules.reorder") }}', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                        },
+                        body: JSON.stringify({ order: order })
+                    }).then(response => {
+                        if(response.ok) {
+                            window.dispatchEvent(new CustomEvent('flash-toast', { detail: { type: 'success', message: '模組排序已更新' } }));
+                        } else {
+                            window.dispatchEvent(new CustomEvent('flash-toast', { detail: { type: 'error', message: '權限不足或更新失敗' } }));
+                        }
+                    });
+                },
+            });
+        }
     </script>
     @endpush
 </x-records-layout>
+
+
+
 
 
 
