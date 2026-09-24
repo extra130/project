@@ -1,4 +1,4 @@
-﻿<x-records-layout title="新增模組">
+<x-records-layout title="新增模組">
     <x-slot name="header">
         <h2 class="text-xl font-semibold">{{ $project->name }} — 新增模組</h2>
     </x-slot>
@@ -43,6 +43,7 @@
         </form>
     </div>
 </x-records-layout>
+
 
 
 

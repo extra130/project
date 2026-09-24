@@ -1,4 +1,4 @@
-﻿<x-records-layout title="所有專案">
+<x-records-layout title="所有專案">
     <x-slot name="header">
         <div class="flex items-center justify-between">
             <h2 class="text-xl font-semibold">所有專案</h2>
@@ -42,7 +42,7 @@
                             @endif
                         </td>
                         <td class="px-4 py-3 space-x-2">
-                            <a href="{{ route('projects.modules.index', $project) }}" class="text-gray-500 dark:text-gray-400 hover:text-indigo-600">模組</a>
+                            <a href="{{ route('projects.show', $project) }}" class="text-gray-500 dark:text-gray-400 hover:text-indigo-600">模組</a>
                             @if(Auth::user()->isEditor())
                                 <a href="{{ route('projects.edit', $project) }}" class="text-gray-500 dark:text-gray-400 hover:text-indigo-600">編輯</a>
                             @endif
@@ -104,6 +104,7 @@
     </script>
     @endpush
 </x-records-layout>
+
 
 
 

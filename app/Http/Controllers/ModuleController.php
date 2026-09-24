@@ -12,16 +12,7 @@ class ModuleController extends Controller
     /**
      * Show modules list under a project.
      */
-    public function index(Project $project)
-    {
-        $modules = $project->modules()->get();
-
-        return view('modules.index', [
-            'project'        => $project,
-            'modules'        => $modules,
-            'currentProject' => $project,
-        ]);
-    }
+    
 
     /**
      * Show form to create module under a project.
@@ -55,7 +46,7 @@ class ModuleController extends Controller
 
         $module = Module::create($validated);
 
-        return redirect()->route('projects.modules.index', $project)
+        return redirect()->route('projects.show', $project)
             ->with('success', '模組已建立。');
     }
 
@@ -112,7 +103,7 @@ class ModuleController extends Controller
 
         $module->update($validated);
 
-        return redirect()->route('projects.modules.index', $module->project_id)
+        return redirect()->route('projects.show', $module->project_id)
             ->with('success', '模組已更新。');
     }
 
@@ -136,3 +127,5 @@ class ModuleController extends Controller
     }
 
 }
+
+

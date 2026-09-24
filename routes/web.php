@@ -60,8 +60,7 @@ Route::middleware(['auth'])->group(function () {
 
     // ---------- Modules (Task 03) ----------
     Route::post('modules/reorder', [\App\Http\Controllers\ModuleController::class, 'reorder'])->name('modules.reorder');
-    Route::get('projects/{project}/modules', [\App\Http\Controllers\ModuleController::class, 'index'])
-        ->name('projects.modules.index');
+    
     Route::get('projects/{project}/modules/create', [\App\Http\Controllers\ModuleController::class, 'create'])
         ->name('projects.modules.create');
     Route::post('projects/{project}/modules', [\App\Http\Controllers\ModuleController::class, 'store'])
@@ -92,3 +91,4 @@ Route::middleware(['auth'])->group(function () {
 });
 
 require __DIR__.'/auth.php';
+

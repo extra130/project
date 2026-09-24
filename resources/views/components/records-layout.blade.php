@@ -1,4 +1,4 @@
-﻿{{--
+{{--
     records-layout.blade.php (Modernized)
     Responsive layout with Alpine.js off-canvas sidebar, SVG Heroicons, and Toast notifications.
 --}}
@@ -125,9 +125,9 @@
                         <span class="truncate w-full" title="{{ $proj->name }}">專案：{{ $proj->name }}</span>
                     </div>
                     <div class="space-y-1">
-                        <a href="{{ route('projects.modules.index', $proj) }}" class="group flex items-center px-2 py-2 text-sm font-medium rounded-md transition-colors {{ request()->routeIs('projects.modules.index') ? 'bg-indigo-50 dark:bg-indigo-900/50 text-indigo-700' : 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:bg-gray-900 hover:text-gray-900 dark:text-gray-100' }}">
-                            <svg class="mr-3 h-5 w-5 {{ request()->routeIs('projects.modules.index') ? 'text-indigo-600' : 'text-gray-400 group-hover:text-gray-500 dark:text-gray-400' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
-                            模組列表
+                        <a href="{{ route('projects.show', $proj) }}" class="group flex items-center px-2 py-2 text-sm font-medium rounded-md transition-colors {{ request()->routeIs('projects.show') ? 'bg-indigo-50 dark:bg-indigo-900/50 text-indigo-700' : 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:bg-gray-900 hover:text-gray-900 dark:text-gray-100' }}">
+                            <svg class="mr-3 h-5 w-5 {{ request()->routeIs('projects.show') ? 'text-indigo-600' : 'text-gray-400 group-hover:text-gray-500 dark:text-gray-400' }}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
+                            模組總覽
                         </a>
                         @if(Auth::user()->isEditor())
                             <a href="{{ route('projects.modules.create', $proj) }}" class="group flex items-center px-2 py-2 text-sm font-medium rounded-md transition-colors {{ request()->routeIs('projects.modules.create') ? 'bg-indigo-50 dark:bg-indigo-900/50 text-indigo-700' : 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:bg-gray-900 hover:text-gray-900 dark:text-gray-100' }}">
@@ -274,6 +274,7 @@
 @stack('scripts')
 </body>
 </html>
+
 
 
 
