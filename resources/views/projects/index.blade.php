@@ -32,6 +32,9 @@
                             <a href="{{ route('projects.show', $project) }}" class="text-indigo-600 hover:underline">
                                 {{ $project->name }}
                             </a>
+                            @if($project->code)
+                                <div class="text-xs text-gray-500 dark:text-gray-400 mt-1 font-mono">{{ $project->code }}</div>
+                            @endif
                         </td>
                         <td class="px-4 py-3 text-gray-500 dark:text-gray-400">{{ Str::limit($project->description, 60) }}</td>
                         <td class="px-4 py-3">
@@ -104,6 +107,7 @@
     </script>
     @endpush
 </x-records-layout>
+
 
 
 

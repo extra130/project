@@ -1,4 +1,4 @@
-﻿<x-records-layout title="新增專案">
+<x-records-layout title="新增專案">
     <x-slot name="header">
         <h2 class="text-xl font-semibold">新增專案</h2>
     </x-slot>
@@ -15,6 +15,13 @@
                 @error('name')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
             </div>
 
+                        <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">專案代碼</label>
+                <input type="text" name="code" value="{{ old('code') }}"
+                       class="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                       maxlength="50">
+                @error('code')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
+            </div>
             <div class="mb-4">
                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">說明</label>
                 <textarea name="description" rows="3"
@@ -50,6 +57,7 @@
         </form>
     </div>
 </x-records-layout>
+
 
 
 

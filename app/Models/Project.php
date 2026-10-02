@@ -12,6 +12,7 @@ class Project extends Model
 
     protected $fillable = [
         'name',
+        'code',
         'description',
         'status',
         'color',
@@ -43,3 +44,4 @@ class Project extends Model
         return $query->where('status', 'active');
     }
 }
+
