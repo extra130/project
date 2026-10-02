@@ -1,11 +1,11 @@
-﻿<x-records-layout :title="$module->name">
+<x-records-layout :title="$module->name">
     <x-slot name="header">
         <div class="flex items-center space-x-4">
             <h2 class="text-xl font-semibold text-gray-800 dark:text-gray-200">
                 🗂 模組：{{ $module->name }}
             </h2>
             <span class="text-sm text-gray-500 dark:text-gray-400">
-                專案：<a href="{{ route('projects.show', $module->project_id) }}" class="text-indigo-600 hover:underline">{{ $module->project->name }}</a>
+                專案：<a href="{{ route('projects.show', $module->project_id) }}" class="text-indigo-600 hover:underline">{{ $module->project->display_name }}</a>
             </span>
         </div>
         @if($module->description)

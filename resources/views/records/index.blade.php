@@ -1,4 +1,4 @@
-﻿{{-- Records index - spec §16 UI, Task 04+05 --}}
+{{-- Records index - spec §16 UI, Task 04+05 --}}
 <x-records-layout title="紀錄列表">
     <x-slot name="header">
         <div class="flex items-center justify-between">
@@ -44,7 +44,7 @@
                     @foreach($projects as $p)
                         <option value="{{ $p->id }}"
                                 {{ ($filters['project_id'] ?? '') == $p->id ? 'selected' : '' }}>
-                            {{ $p->name }}
+                            {{ $p->display_name }}
                         </option>
                     @endforeach
                 </select>
@@ -187,7 +187,7 @@
                         <div class="mt-2 flex items-center space-x-2">
                             {{-- Project Name prominently colored --}}
                             <span class="text-xs font-bold px-2 py-0.5 rounded shadow-sm text-white" style="background-color: {{ $record->project->color ?? '#4f46e5' }};">
-                                {{ $record->project->name ?? '' }}
+                                {{ $record->project->display_name ?? '' }}
                             </span>
                             
                             @if($record->module)
@@ -326,6 +326,8 @@
         </div>
     </div>
 </x-records-layout>
+
+
 
 
 

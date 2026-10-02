@@ -1,4 +1,4 @@
-﻿<x-records-layout title="行事曆">
+<x-records-layout title="行事曆">
     <x-slot name="header">
         <div class="flex items-center justify-between">
             <div class="flex items-center space-x-3">
@@ -82,7 +82,7 @@
                         @endphp
                         @foreach($day['records'] as $record)
                             <a href="{{ route('records.show', $record) }}" class="block text-left text-xs p-1 border rounded truncate hover:shadow-md transition-shadow {{ $typeColors[$record->type] ?? 'bg-gray-100 dark:bg-gray-700' }}" title="{{ $record->title }}">
-                                <span class="font-bold opacity-75 mr-1">[{{ Str::limit($record->project->name, 6, '') }}]</span>
+                                <span class="font-bold opacity-75 mr-1">[{{ Str::limit($record->project->display_name, 6, '') }}]</span>
                                 {{ $record->title }}
                             </a>
                         @endforeach

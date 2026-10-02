@@ -3,10 +3,7 @@
         <div class="flex items-center justify-between">
             <div>
                 <h2 class="text-xl font-semibold flex items-baseline">
-                    {{ $project->name }}
-                    @if($project->code)
-                        <span class="text-sm font-normal text-gray-500 dark:text-gray-400 font-mono ml-3 px-2 py-0.5 bg-gray-100 dark:bg-gray-700 rounded">{{ $project->code }}</span>
-                    @endif
+                    {{ $project->display_name }}
                 </h2>
                 <p class="text-sm text-gray-500 dark:text-gray-400 mt-0.5">{{ $project->description }}</p>
             </div>
@@ -183,6 +180,8 @@
     </script>
     @endpush
 </x-records-layout>
+
+
 
 
 

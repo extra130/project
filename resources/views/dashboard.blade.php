@@ -1,4 +1,4 @@
-﻿<x-records-layout title="儀表板">
+<x-records-layout title="儀表板">
     <x-slot name="header">
         <div>
             <h2 class="text-2xl font-bold text-gray-800 dark:text-gray-200 tracking-tight">儀表板</h2>
@@ -83,7 +83,7 @@
                                 {{ $record->type === 'note' ? 'bg-gray-50 dark:bg-gray-900' : '' }}">
                             </div>
                             <div>
-                                <span class="text-xs font-bold text-indigo-600 mr-2 bg-indigo-100 px-2 py-0.5 rounded-full">{{ $record->project->name }}</span>
+                                <span class="text-xs font-bold text-indigo-600 mr-2 bg-indigo-100 px-2 py-0.5 rounded-full">{{ $record->project->display_name }}</span>
                                 <span class="text-sm font-semibold text-gray-800 dark:text-gray-200 group-hover:text-indigo-700">{{ $record->title }}</span>
                             </div>
                         </div>

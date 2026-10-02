@@ -1,4 +1,4 @@
-﻿<x-records-layout :title="'編輯紀錄：' . $record->title">
+<x-records-layout :title="'編輯紀錄：' . $record->title">
     <x-slot name="header">
         <h2 class="text-xl font-semibold">編輯紀錄</h2>
     </x-slot>
@@ -14,7 +14,7 @@
                     <select name="project_id" required class="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 text-sm">
                         @foreach($projects as $p)
                             <option value="{{ $p->id }}" {{ old('project_id',$record->project_id)==$p->id?'selected':'' }}>
-                                {{ $p->name }}
+                                {{ $p->display_name }}
                             </option>
                         @endforeach
                     </select>

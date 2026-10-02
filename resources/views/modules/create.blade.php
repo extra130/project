@@ -1,6 +1,6 @@
 <x-records-layout title="新增模組">
     <x-slot name="header">
-        <h2 class="text-xl font-semibold">{{ $project->name }} — 新增模組</h2>
+        <h2 class="text-xl font-semibold">{{ $project->display_name }} — 新增模組</h2>
     </x-slot>
 
     <div class="bg-white dark:bg-gray-800 rounded shadow-sm p-6 max-w-2xl">

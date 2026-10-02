@@ -1,6 +1,6 @@
 <x-records-layout :title="'編輯模組：' . $module->name">
     <x-slot name="header">
-        <h2 class="text-xl font-semibold">編輯模組 — {{ $module->project->name }}</h2>
+        <h2 class="text-xl font-semibold">編輯模組 — {{ $module->project->display_name }}</h2>
     </x-slot>
 
     <div class="bg-white dark:bg-gray-800 rounded shadow-sm p-6 max-w-2xl">

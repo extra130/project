@@ -122,7 +122,7 @@
                 @if($proj)
                 <div>
                     <div class="px-2 mb-2 text-xs font-semibold text-indigo-500 uppercase tracking-wider flex items-center">
-                        <span class="truncate w-full" title="{{ $proj->name }}">專案：{{ $proj->name }}</span>
+                        <span class="truncate w-full" title="{{ $proj->display_name }}">專案：{{ $proj->display_name }}</span>
                     </div>
                     <div class="space-y-1">
                         <a href="{{ route('projects.show', $proj) }}" class="group flex items-center px-2 py-2 text-sm font-medium rounded-md transition-colors {{ request()->routeIs('projects.show') ? 'bg-indigo-50 dark:bg-indigo-900/50 text-indigo-700' : 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:bg-gray-900 hover:text-gray-900 dark:text-gray-100' }}">

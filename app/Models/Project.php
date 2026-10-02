@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 namespace App\Models;
 
@@ -37,6 +37,10 @@ class Project extends Model
         return $this->hasMany(ProjectFile::class)->orderBy('sort_order');
     }
 
+    public function getDisplayNameAttribute()
+    {
+        return $this->code ? "$this->name ($this->code)" : $this->name;
+    }
     // ---------- Scopes ----------
 
     public function scopeActive($query)
@@ -44,4 +48,5 @@ class Project extends Model
         return $query->where('status', 'active');
     }
 }
+
 

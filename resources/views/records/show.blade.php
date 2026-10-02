@@ -1,4 +1,4 @@
-﻿{{-- Record show - spec §17 UI --}}
+{{-- Record show - spec §17 UI --}}
 <x-records-layout :title="$record->title">
     <x-slot name="header">
         <div class="flex items-center justify-between">
@@ -47,7 +47,7 @@
                     <a href="{{ route('projects.show', $record->project) }}"
                        class="text-white px-2 py-0.5 rounded text-xs font-bold shadow-sm inline-block"
                        style="background-color: {{ $record->project->color ?? '#4f46e5' }};">
-                        {{ $record->project->name }}
+                        {{ $record->project->display_name }}
                     </a>
                 </div>
                 <div>

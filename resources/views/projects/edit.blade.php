@@ -1,4 +1,4 @@
-<x-records-layout :title="'編輯：' . $project->name">
+<x-records-layout :title="'編輯：' . $project->display_name">
     <x-slot name="header">
         <h2 class="text-xl font-semibold">編輯專案</h2>
     </x-slot>
@@ -58,6 +58,8 @@
         </form>
     </div>
 </x-records-layout>
+
+
 
 
 
