@@ -27,7 +27,7 @@ class DailyLogController extends Controller
 
         // 依據專案名稱分組
         $groupedRecords = $records->groupBy(function ($record) {
-            return $record->project->name;
+            return $record->project->display_name;
         });
 
         // 統計數據
@@ -36,3 +36,4 @@ class DailyLogController extends Controller
         return view('daily-log.index', compact('targetDate', 'groupedRecords', 'totalRecords'));
     }
 }
+
