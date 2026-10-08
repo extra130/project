@@ -28,7 +28,7 @@
             </div>
             @if(Auth::user()->isEditor())
                 <a href="{{ route('records.edit', $record) }}"
-                   class="border border-gray-300 dark:border-gray-600 px-3 py-1.5 rounded text-sm hover:bg-gray-50 dark:bg-gray-900">
+                   class="border border-gray-300 dark:border-gray-600 px-3 py-1.5 rounded text-sm hover:bg-gray-50 dark:hover:bg-gray-900">
                     編輯
                 </a>
             @endif
@@ -125,7 +125,7 @@
                                       file:mr-3 file:py-1 file:px-3
                                       file:rounded file:border-0
                                       file:text-xs file:font-medium
-                                      file:bg-indigo-50 dark:bg-indigo-900/50 file:text-indigo-700
+                                      file:bg-indigo-50 dark:file:bg-indigo-900/50 file:text-indigo-700
                                       hover:file:bg-indigo-100 mb-2">
                         <button type="submit"
                                 class="w-full bg-indigo-600 text-white text-xs px-3 py-1.5 rounded hover:bg-indigo-700">

@@ -24,8 +24,8 @@
             </thead>
             <tbody id="sortable-projects" class="divide-y divide-gray-100 dark:divide-gray-800">
                 @forelse($projects as $project)
-                    <tr data-id="{{ $project->id }}" class="hover:bg-gray-50 dark:bg-gray-900 bg-white dark:bg-gray-800">
-                        <td class="px-4 py-3 text-center cursor-move text-gray-400 hover:text-gray-600 dark:text-gray-400">
+                    <tr data-id="{{ $project->id }}" class="hover:bg-gray-50 dark:hover:bg-gray-900 bg-white dark:bg-gray-800">
+                        <td class="px-4 py-3 text-center cursor-move text-gray-400 hover:text-gray-600 dark:hover:text-gray-400">
                             <svg class="w-5 h-5 inline-block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8h16M4 16h16"></path></svg>
                         </td>
                         <td class="px-4 py-3 font-medium">

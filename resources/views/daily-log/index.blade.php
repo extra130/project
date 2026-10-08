@@ -1,4 +1,4 @@
-﻿<x-records-layout title="每日工作日誌">
+<x-records-layout title="每日工作日誌">
     <x-slot name="header">
         <div class="flex items-center justify-between print:hidden">
             <h2 class="text-xl font-semibold">📝 每日工作日誌</h2>
@@ -13,7 +13,7 @@
                            class="border border-gray-300 dark:border-gray-600 rounded px-3 py-1.5 text-sm"
                            onchange="this.form.submit()">
                 </form>
-                <button onclick="window.print()" class="text-sm bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded hover:bg-gray-50 dark:bg-gray-900 flex items-center">
+                <button onclick="window.print()" class="text-sm bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded hover:bg-gray-50 dark:hover:bg-gray-900 flex items-center">
                     <span class="mr-1">🖨️</span> 列印 / 匯出 PDF
                 </button>
             </div>
@@ -36,7 +36,7 @@
                 <div class="bg-white dark:bg-gray-800 rounded shadow-sm overflow-hidden print:shadow-none print:border print:break-inside-avoid" x-data x-show="$store.dailyLog.showRemarks || {{ $records->where('type', '!=', 'note')->count() > 0 ? 'true' : 'false' }}">
                     {{-- 專案標題列 --}}
                     @php $pColor = $records->first()->project->color ?? '#4f46e5'; @endphp
-                    <div class="px-6 py-3 print:bg-gray-100 dark:bg-gray-700 print:border-gray-300 dark:border-gray-600 border-b"
+                    <div class="px-6 py-3 print:bg-gray-100 print:border-gray-300 border-b"
                          style="background-color: {{ $pColor }}15; border-color: {{ $pColor }}30;">
                         <h3 class="text-lg font-bold print:text-black flex items-center" style="color: {{ $pColor }};">
                             <span class="mr-2" style="color: {{ $pColor }};">📁</span> {{ $projectName }}

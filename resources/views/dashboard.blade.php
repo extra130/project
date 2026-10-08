@@ -73,7 +73,7 @@
         
         <div class="space-y-4">
             @forelse($latestRecords as $record)
-                <a href="{{ route('records.show', $record) }}" class="group block bg-gray-50 dark:bg-gray-900 rounded-lg p-4 hover:bg-indigo-50 dark:bg-indigo-900/50 hover:shadow-sm transition-all duration-200 border border-transparent hover:border-indigo-100">
+                <a href="{{ route('records.show', $record) }}" class="group block bg-gray-50 dark:bg-gray-900 rounded-lg p-4 hover:bg-indigo-50 dark:hover:bg-indigo-900/50 hover:shadow-sm transition-all duration-200 border border-transparent hover:border-indigo-100">
                     <div class="flex items-center justify-between">
                         <div class="flex items-center space-x-3">
                             <div class="flex-shrink-0 w-2 h-2 rounded-full 

@@ -1,4 +1,4 @@
-﻿<section>
+<section>
     <header>
         <h2 class="text-lg font-bold text-gray-900 dark:text-gray-100 flex items-center">
             <span class="mr-2">📝</span> 基本資料
@@ -19,13 +19,13 @@
 
         <div>
             <x-input-label for="name" value="顯示名稱" />
-            <x-text-input id="name" name="name" type="text" class="mt-1 block w-full bg-gray-50 dark:bg-gray-900 focus:bg-white dark:bg-gray-800 transition-colors" :value="old('name', $user->name)" required autofocus autocomplete="name" />
+            <x-text-input id="name" name="name" type="text" class="mt-1 block w-full bg-gray-50 dark:bg-gray-900 focus:bg-white dark:focus:bg-gray-800 transition-colors" :value="old('name', $user->name)" required autofocus autocomplete="name" />
             <x-input-error class="mt-2" :messages="$errors->get('name')" />
         </div>
 
         <div>
             <x-input-label for="email" value="電子郵件" />
-            <x-text-input id="email" name="email" type="email" class="mt-1 block w-full bg-gray-50 dark:bg-gray-900 focus:bg-white dark:bg-gray-800 transition-colors" :value="old('email', $user->email)" required autocomplete="username" />
+            <x-text-input id="email" name="email" type="email" class="mt-1 block w-full bg-gray-50 dark:bg-gray-900 focus:bg-white dark:focus:bg-gray-800 transition-colors" :value="old('email', $user->email)" required autocomplete="username" />
             <x-input-error class="mt-2" :messages="$errors->get('email')" />
 
             @if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && ! $user->hasVerifiedEmail())

@@ -1,4 +1,4 @@
-﻿{{-- Attachment edit form (Task 07) - spec §18 --}}
+{{-- Attachment edit form (Task 07) - spec §18 --}}
 <x-records-layout title="修改附件資訊">
     <x-slot name="header">
         <h2 class="text-xl font-semibold">修改附件資訊</h2>

@@ -3,7 +3,7 @@
         <div class="flex items-center justify-between">
             <div class="flex items-center space-x-3">
                 <h2 class="text-xl font-semibold">📅 行事曆</h2>
-                <a href="{{ route('records.index') }}" class="text-sm bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded hover:bg-gray-50 dark:bg-gray-900 flex items-center transition-colors">
+                <a href="{{ route('records.index') }}" class="text-sm bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded hover:bg-gray-50 dark:hover:bg-gray-900 flex items-center transition-colors">
                     <span class="mr-1">📋</span> 切換列表模式
                 </a>
             </div>

@@ -1,4 +1,4 @@
-﻿{{--
+{{--
     Anonymous component: x-app-layout
     用於 Breeze Profile 頁面（edit / password / delete）。
     沿用本系統的 records-layout 外觀。

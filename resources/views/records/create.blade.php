@@ -114,7 +114,7 @@
                               file:mr-3 file:py-1.5 file:px-3
                               file:rounded file:border-0
                               file:text-sm file:font-medium
-                              file:bg-indigo-50 dark:bg-indigo-900/50 file:text-indigo-700
+                              file:bg-indigo-50 dark:file:bg-indigo-900/50 file:text-indigo-700
                               hover:file:bg-indigo-100">
                 <p class="text-xs text-gray-500 dark:text-gray-400 mt-2">可一次選擇多個檔案上傳（建立後也可在專屬頁面無限追加）</p>
                 @error('files.*')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror

@@ -1,4 +1,4 @@
-﻿<section>
+<section>
     <header>
         <h2 class="text-lg font-bold text-gray-900 dark:text-gray-100 flex items-center">
             <span class="mr-2">🔒</span> 修改密碼
@@ -15,19 +15,19 @@
 
         <div>
             <x-input-label for="update_password_current_password" value="目前密碼" />
-            <x-text-input id="update_password_current_password" name="current_password" type="password" class="mt-1 block w-full bg-gray-50 dark:bg-gray-900 focus:bg-white dark:bg-gray-800 transition-colors" autocomplete="current-password" />
+            <x-text-input id="update_password_current_password" name="current_password" type="password" class="mt-1 block w-full bg-gray-50 dark:bg-gray-900 focus:bg-white dark:focus:bg-gray-800 transition-colors" autocomplete="current-password" />
             <x-input-error :messages="$errors->updatePassword->get('current_password')" class="mt-2" />
         </div>
 
         <div>
             <x-input-label for="update_password_password" value="新密碼" />
-            <x-text-input id="update_password_password" name="password" type="password" class="mt-1 block w-full bg-gray-50 dark:bg-gray-900 focus:bg-white dark:bg-gray-800 transition-colors" autocomplete="new-password" />
+            <x-text-input id="update_password_password" name="password" type="password" class="mt-1 block w-full bg-gray-50 dark:bg-gray-900 focus:bg-white dark:focus:bg-gray-800 transition-colors" autocomplete="new-password" />
             <x-input-error :messages="$errors->updatePassword->get('password')" class="mt-2" />
         </div>
 
         <div>
             <x-input-label for="update_password_password_confirmation" value="確認新密碼" />
-            <x-text-input id="update_password_password_confirmation" name="password_confirmation" type="password" class="mt-1 block w-full bg-gray-50 dark:bg-gray-900 focus:bg-white dark:bg-gray-800 transition-colors" autocomplete="new-password" />
+            <x-text-input id="update_password_password_confirmation" name="password_confirmation" type="password" class="mt-1 block w-full bg-gray-50 dark:bg-gray-900 focus:bg-white dark:focus:bg-gray-800 transition-colors" autocomplete="new-password" />
             <x-input-error :messages="$errors->updatePassword->get('password_confirmation')" class="mt-2" />
         </div>
 

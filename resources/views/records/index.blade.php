@@ -3,7 +3,7 @@
     <x-slot name="header">
         <div class="flex items-center justify-between">
             <h2 class="text-xl font-semibold">紀錄列表</h2>
-            <a href="{{ route('calendar.index') }}" class="text-sm bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded hover:bg-gray-50 dark:bg-gray-900 flex items-center">
+            <a href="{{ route('calendar.index') }}" class="text-sm bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded hover:bg-gray-50 dark:hover:bg-gray-900 flex items-center">
                 <span class="mr-1">📅</span> 切換月曆模式
             </a>
         </div>
@@ -90,7 +90,7 @@
                 <button type="submit" class="flex-1 bg-indigo-600 text-white px-4 py-2 rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors text-sm font-medium">
                     🔍 搜尋
                 </button>
-                <a href="{{ route('records.index') }}" class="flex-1 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 px-4 py-2 rounded-md shadow-sm hover:bg-gray-50 dark:bg-gray-900 text-center transition-colors text-sm font-medium">
+                <a href="{{ route('records.index') }}" class="flex-1 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 px-4 py-2 rounded-md shadow-sm hover:bg-gray-50 dark:hover:bg-gray-900 text-center transition-colors text-sm font-medium">
                     重置
                 </a>
             </div>
@@ -288,14 +288,14 @@
                 
                 <div class="flex justify-between items-start mb-5">
                     <h3 class="text-lg font-medium leading-6 text-gray-900 dark:text-gray-100 truncate pr-4" x-text="'附件清單：' + title"></h3>
-                    <button @click="isOpen = false" class="text-gray-400 hover:text-gray-500 dark:text-gray-400">
+                    <button @click="isOpen = false" class="text-gray-400 hover:text-gray-500 dark:hover:text-gray-400">
                         <span class="text-2xl">&times;</span>
                     </button>
                 </div>
 
                 <div class="space-y-3 max-h-[60vh] overflow-y-auto pr-2">
                     <template x-for="file in files" :key="file.id">
-                        <div class="flex items-center justify-between p-3 border border-gray-100 rounded bg-gray-50 dark:bg-gray-900 hover:bg-gray-100 dark:bg-gray-700">
+                        <div class="flex items-center justify-between p-3 border border-gray-100 rounded bg-gray-50 dark:bg-gray-900 hover:bg-gray-100 dark:hover:bg-gray-700">
                             <div class="flex items-center flex-1 min-w-0">
                                 <span class="text-xl mr-3" x-text="file.ext === 'pdf' ? '📄' : (file.ext === 'md' ? '📝' : '📎')"></span>
                                 <div class="truncate">

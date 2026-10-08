@@ -1,4 +1,4 @@
-﻿@tailwind base;
+@tailwind base;
 @tailwind components;
 @tailwind utilities;
 
@@ -24,6 +24,30 @@
     body.dark {
         @apply bg-gray-900 text-gray-200;
     }
+
+    [x-cloak] {
+        display: none !important;
+    }
+}
+
+@layer components {
+    /* 內容區卡片：在 slate 背景上加細框線，層次更清楚 */
+    main .bg-white:is(.shadow-sm, .shadow, .shadow-md) {
+        @apply ring-1 ring-gray-200/80 dark:ring-gray-700/60;
+    }
+
+    /* 表格表頭 */
+    main table thead th {
+        @apply text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400;
+    }
+}
+
+/* 深色側欄捲軸 */
+.sidebar-scroll::-webkit-scrollbar-thumb {
+    background: rgb(255 255 255 / 0.12);
+}
+.sidebar-scroll::-webkit-scrollbar-thumb:hover {
+    background: rgb(255 255 255 / 0.24);
 }
 
 /* Custom Scrollbar for a modern UX */

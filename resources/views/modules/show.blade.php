@@ -19,7 +19,7 @@
             <div class="flex justify-between items-center">
                 <h3 class="text-lg font-bold text-gray-800 dark:text-gray-200">📎 紀錄附件總覽 ({{ $files->count() }})</h3>
                 <div class="space-x-3">
-                    <a href="{{ route('records.index', ['project_id' => $module->project_id, 'module_id' => $module->id]) }}" class="text-sm border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded hover:bg-gray-50 dark:bg-gray-900">
+                    <a href="{{ route('records.index', ['project_id' => $module->project_id, 'module_id' => $module->id]) }}" class="text-sm border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded hover:bg-gray-50 dark:hover:bg-gray-900">
                         看所有相關紀錄
                     </a>
                     <a href="{{ route('records.create', ['project_id' => $module->project_id, 'module_id' => $module->id]) }}" class="text-sm bg-indigo-600 text-white px-3 py-1.5 rounded hover:bg-indigo-700">
@@ -43,7 +43,7 @@
                             </thead>
                             <tbody class="divide-y divide-gray-100 dark:divide-gray-800">
                                 @foreach($files as $file)
-                                    <tr class="hover:bg-gray-50 dark:bg-gray-900">
+                                    <tr class="hover:bg-gray-50 dark:hover:bg-gray-900">
                                         <td class="px-6 py-3">
                                             <div class="font-medium text-gray-800 dark:text-gray-200">{{ $file->display_name }}</div>
                                             <div class="text-xs text-gray-400 mt-0.5">{{ $file->original_name }}</div>
@@ -100,7 +100,7 @@
                                       file:mr-3 file:py-1 file:px-3
                                       file:rounded file:border-0
                                       file:text-xs file:font-medium
-                                      file:bg-indigo-50 dark:bg-indigo-900/50 file:text-indigo-700
+                                      file:bg-indigo-50 dark:file:bg-indigo-900/50 file:text-indigo-700
                                       hover:file:bg-indigo-100 mb-2">
                         <button type="submit"
                                 class="w-full bg-indigo-600 text-white text-xs px-3 py-1.5 rounded hover:bg-indigo-700">
@@ -112,7 +112,7 @@
 
                 <div class="space-y-3 max-h-[60vh] overflow-y-auto pr-1">
                     @forelse($moduleFiles as $file)
-                        <div class="border border-gray-100 rounded p-3 hover:bg-gray-50 dark:bg-gray-900">
+                        <div class="border border-gray-100 rounded p-3 hover:bg-gray-50 dark:hover:bg-gray-900">
                             <div class="font-medium text-sm text-gray-800 dark:text-gray-200 break-words">
                                 {{ $file->original_name }}
                             </div>

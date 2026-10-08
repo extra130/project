@@ -79,11 +79,22 @@ class Task13UiTest extends TestCase
     /** @test */
     public function all_main_pages_return_200_for_admin(): void
     {
+        $project = \App\Models\Project::create(['name' => 'UI 測試專案', 'code' => 'UI-01', 'status' => 'active']);
+        $module  = $project->modules()->create(['name' => 'UI 模組', 'status' => 'active']);
+
         $pages = [
             '/records',
             '/projects',
             '/records/create',
             '/projects/create',
+            route('dashboard', [], false),
+            route('calendar.index', [], false),
+            route('daily-log.index', [], false),
+            route('projects.show', $project, false),
+            route('projects.edit', $project, false),
+            route('projects.modules.create', $project, false),
+            route('modules.show', $module, false),
+            route('modules.edit', $module, false),
         ];
 
         foreach ($pages as $page) {
@@ -94,6 +105,10 @@ class Task13UiTest extends TestCase
                 "頁面 {$page} 應回傳 200，實際：{$response->getStatusCode()}"
             );
         }
+
+        // 專案代碼顯示格式
+        $this->actingAs($this->admin)->get(route('projects.show', $project, false))
+            ->assertSee('UI 測試專案 (UI-01)');
     }
 
     /** @test */
@@ -161,7 +176,7 @@ class Task13UiTest extends TestCase
     {
         $views = [
             'projects/index', 'projects/create', 'projects/show', 'projects/edit',
-            'modules/index',  'modules/create',  'modules/edit',
+            'modules/show',   'modules/create',  'modules/edit',
             'records/index',  'records/create',  'records/show',  'records/edit',
             'record_files/edit',
         ];

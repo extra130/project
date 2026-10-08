@@ -1,4 +1,4 @@
-﻿{{-- Anonymous component: x-guest-layout --}}
+{{-- Anonymous component: x-guest-layout --}}
 {{-- Delegates to layouts/guest.blade.php --}}
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
