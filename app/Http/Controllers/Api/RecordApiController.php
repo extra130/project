@@ -9,6 +9,8 @@ use App\Services\RecordFileService;
 use App\Services\RecordSearchService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
+use Illuminate\Validation\ValidationException;
 
 /**
  * RecordApiController
@@ -53,9 +55,10 @@ class RecordApiController extends Controller
     {
         $this->authorizeRole('editor');
 
+        $projectId = filter_var($request->input('project_id'), FILTER_VALIDATE_INT);
         $validated = $request->validate([
-            'project_id' => 'required|exists:projects,id',
-            'module_id'  => 'nullable|exists:modules,id',
+            'project_id' => 'bail|required|integer|exists:projects,id',
+            'module_id'  => ['bail', 'nullable', 'integer', Rule::exists('modules', 'id')->where('project_id', $projectId === false ? null : $projectId)],
             'type'       => 'required|in:development,test,issue,note',
             'title'      => 'required|string|max:255',
             'content'    => 'required|string',
@@ -92,9 +95,10 @@ class RecordApiController extends Controller
     {
         $this->authorizeRole('editor');
 
+        $projectId = filter_var($request->input('project_id', $record->project_id), FILTER_VALIDATE_INT);
         $validated = $request->validate([
-            'project_id' => 'sometimes|required|exists:projects,id',
-            'module_id'  => 'nullable|exists:modules,id',
+            'project_id' => 'bail|sometimes|required|integer|exists:projects,id',
+            'module_id'  => ['bail', 'nullable', 'integer', Rule::exists('modules', 'id')->where('project_id', $projectId === false ? null : $projectId)],
             'type'       => 'sometimes|required|in:development,test,issue,note',
             'title'      => 'sometimes|required|string|max:255',
             'content'    => 'sometimes|required|string',
@@ -103,6 +107,13 @@ class RecordApiController extends Controller
             'git_branch' => 'nullable|string|max:255',
             'git_commit' => 'nullable|string|max:100',
         ]);
+
+        // 部分更新只換專案時，也必須核對仍保留的模組。
+        if (!array_key_exists('module_id', $validated) && $record->module_id !== null
+            && !\App\Models\Module::whereKey($record->module_id)
+                ->where('project_id', $validated['project_id'] ?? $record->project_id)->exists()) {
+            throw ValidationException::withMessages(['module_id' => '模組必須屬於所選專案。']);
+        }
 
         $record->update($validated);
 
@@ -146,7 +157,11 @@ class RecordApiController extends Controller
             'sort_order'   => 'nullable|integer',
         ]);
 
-        $recordFile->update(array_filter($validated, fn($v) => $v !== null));
+        $recordFile->update(array_filter(
+            $validated,
+            fn($value, $key) => $key === 'note' || $value !== null,
+            ARRAY_FILTER_USE_BOTH
+        ));
 
         return response()->json($recordFile->fresh());
     }

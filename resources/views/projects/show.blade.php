@@ -103,6 +103,8 @@
                                       file:text-xs file:font-medium
                                       file:bg-indigo-50 dark:file:bg-indigo-900/50 file:text-indigo-700
                                       hover:file:bg-indigo-100 mb-2">
+                        @error('files')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
+                        @error('files.*')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
                         <button type="submit"
                                 class="w-full bg-indigo-600 text-white text-xs px-3 py-1.5 rounded hover:bg-indigo-700">
                             ↑ 上傳

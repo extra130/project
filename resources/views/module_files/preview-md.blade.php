@@ -17,7 +17,7 @@
             </div>
             
             <div class="prose max-w-none prose-indigo prose-pre:bg-gray-800 prose-pre:text-gray-100">
-                {!! Str::markdown($content, ['html_input' => 'escape']) !!}
+                {!! Str::markdown($content, ['html_input' => 'escape', 'allow_unsafe_links' => false]) !!}
             </div>
         </div>
     </div>

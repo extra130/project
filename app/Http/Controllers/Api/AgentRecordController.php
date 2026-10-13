@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Project;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 /**
  * AgentRecordController
@@ -133,7 +135,7 @@ class AgentRecordController extends Controller
         $request->validate([
             'name'        => 'sometimes|required|string|max:150',
             'description' => 'nullable|string',
-            'sort_order'  => 'nullable|integer',
+            'sort_order'  => 'sometimes|required|integer',
             'status'      => 'nullable|in:active,archived',
         ]);
 

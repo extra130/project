@@ -98,6 +98,7 @@ class ModuleController extends Controller
         $validated = $request->validate([
             'name'        => 'required|string|max:150',
             'description' => 'nullable|string',
+            'sort_order'  => 'sometimes|required|integer',
             'status'      => 'required|in:active,archived',
         ]);
 

@@ -25,10 +25,8 @@ class DailyLogController extends Controller
             ->orderBy('created_at', 'asc')
             ->get();
 
-        // 依據專案名稱分組
-        $groupedRecords = $records->groupBy(function ($record) {
-            return $record->project->display_name;
-        });
+        // 依據專案識別碼分組，同名專案仍分開顯示。
+        $groupedRecords = $records->groupBy('project_id');
 
         // 統計數據
         $totalRecords = $records->count();

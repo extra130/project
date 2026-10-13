@@ -97,7 +97,7 @@
             <div class="bg-white dark:bg-gray-800 rounded shadow-sm p-6">
                 <h3 class="text-sm font-medium text-gray-500 dark:text-gray-400 mb-4 border-b pb-2">內容</h3>
                 <div class="prose max-w-none prose-sm prose-indigo prose-pre:bg-gray-800 prose-pre:text-gray-100">
-                    {!! Str::markdown($record->content, ['html_input' => 'escape']) !!}
+                    {!! Str::markdown($record->content, ['html_input' => 'escape', 'allow_unsafe_links' => false]) !!}
                 </div>
             </div>
         </div>
@@ -127,6 +127,8 @@
                                       file:text-xs file:font-medium
                                       file:bg-indigo-50 dark:file:bg-indigo-900/50 file:text-indigo-700
                                       hover:file:bg-indigo-100 mb-2">
+                        @error('files')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
+                        @error('files.*')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
                         <button type="submit"
                                 class="w-full bg-indigo-600 text-white text-xs px-3 py-1.5 rounded hover:bg-indigo-700">
                             ↑ 上傳

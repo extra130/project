@@ -5,8 +5,10 @@ namespace App\Services;
 use App\Models\Module;
 use App\Models\ModuleFile;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Illuminate\Validation\ValidationException;
 
 class ModuleFileService
 {
@@ -15,12 +17,22 @@ class ModuleFileService
      */
     public function storeFiles(Module $module, array $files, ?int $uploadedBy = null): void
     {
-        foreach ($files as $file) {
-            if (!$file instanceof UploadedFile || !$file->isValid()) {
-                continue;
-            }
+        $saved = [];
+        try {
+            DB::transaction(function () use ($module, $files, $uploadedBy, &$saved) {
+                foreach ($files as $file) {
+                    if (!$file instanceof UploadedFile || !$file->isValid()) {
+                        continue;
+                    }
 
-            $this->storeSingleFile($module, $file, $uploadedBy);
+                    $saved[] = $this->storeSingleFile($module, $file, $uploadedBy);
+                }
+            });
+        } catch (\Throwable $e) {
+            foreach ($saved as $file) {
+                Storage::disk('local')->delete($file->storage_path);
+            }
+            throw $e;
         }
     }
 
@@ -38,19 +50,24 @@ class ModuleFileService
         
         $storagePath = "modules/{$datePath}/{$fileName}";
 
-        // Store file
-        Storage::disk('local')->putFileAs("modules/{$datePath}", $file, $fileName);
+        try {
+            if (Storage::disk('local')->putFileAs("modules/{$datePath}", $file, $fileName) === false) {
+                throw ValidationException::withMessages(['files' => '檔案儲存失敗，請稍後再試。']);
+            }
 
-        // Save DB record
-        return ModuleFile::create([
-            'module_id'     => $module->id,
-            'original_name' => $originalName,
-            'storage_path'  => $storagePath,
-            'mime_type'     => $mimeType,
-            'extension'     => strtolower($extension),
-            'file_size'     => $fileSize,
-            'uploaded_by'   => $uploadedBy,
-        ]);
+            return ModuleFile::create([
+                'module_id'     => $module->id,
+                'original_name' => $originalName,
+                'storage_path'  => $storagePath,
+                'mime_type'     => $mimeType,
+                'extension'     => strtolower($extension),
+                'file_size'     => $fileSize,
+                'uploaded_by'   => $uploadedBy,
+            ]);
+        } catch (\Throwable $e) {
+            Storage::disk('local')->delete($storagePath);
+            throw $e;
+        }
     }
 
     /**

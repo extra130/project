@@ -12,7 +12,7 @@
                 {{-- Project --}}
                 <div>
                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">專案 *</label>
-                    <select name="project_id" required
+                    <select name="project_id" id="record-project" required
                             class="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 text-sm">
                         <option value="">— 選擇專案 —</option>
                         @foreach($projects as $p)
@@ -28,14 +28,15 @@
                 {{-- Module --}}
                 <div>
                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">模組</label>
-                    <select name="module_id" class="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 text-sm">
+                    <select name="module_id" id="record-module" class="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 text-sm">
                         <option value="">— 不指定模組 —</option>
                         @foreach($modules as $m)
-                            <option value="{{ $m->id }}" {{ old('module_id') == $m->id ? 'selected' : '' }}>
+                            <option value="{{ $m->id }}" {{ old('module_id', $selectedModule?->id) == $m->id ? 'selected' : '' }}>
                                 {{ $m->name }}
                             </option>
                         @endforeach
                     </select>
+                    @error('module_id')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
                 </div>
 
                 {{-- Type --}}
@@ -84,8 +85,9 @@
                 {{-- Tags --}}
                 <div class="sm:col-span-2">
                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">標籤 (Tags)</label>
-                    <input type="text" name="tags_input" value="{{ old('tags_input') }}"
+                    <input type="text" name="tags_input" value="{{ is_string(old('tags_input')) ? old('tags_input') : '' }}"
                            class="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 text-sm" placeholder="API, 資安, 資料庫優化 (多個請用逗號分隔)">
+                    @error('tags_input')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
                 </div>
             </div>
 
@@ -117,6 +119,7 @@
                               file:bg-indigo-50 dark:file:bg-indigo-900/50 file:text-indigo-700
                               hover:file:bg-indigo-100">
                 <p class="text-xs text-gray-500 dark:text-gray-400 mt-2">可一次選擇多個檔案上傳（建立後也可在專屬頁面無限追加）</p>
+                @error('files')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
                 @error('files.*')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
             </div>
 
@@ -128,6 +131,7 @@
             </div>
         </form>
     </div>
+    @include('records.partials.module-options')
 </x-records-layout>
 
 

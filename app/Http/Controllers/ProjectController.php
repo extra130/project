@@ -109,6 +109,16 @@ class ProjectController extends Controller
             ->with('success', '專案已更新。');
     }
 
+    public function archive(Project $project)
+    {
+        $this->authorizeRole('editor');
+
+        $project->update(['status' => 'archived']);
+
+        return redirect()->route('projects.show', $project)
+            ->with('success', '專案已更新。');
+    }
+
     /**
      * AJAX: Get modules for a specific project
      */

@@ -32,14 +32,14 @@
         </div>
     @else
         <div class="space-y-8">
-            @foreach($groupedRecords as $projectName => $records)
+            @foreach($groupedRecords as $records)
                 <div class="bg-white dark:bg-gray-800 rounded shadow-sm overflow-hidden print:shadow-none print:border print:break-inside-avoid" x-data x-show="$store.dailyLog.showRemarks || {{ $records->where('type', '!=', 'note')->count() > 0 ? 'true' : 'false' }}">
                     {{-- 專案標題列 --}}
                     @php $pColor = $records->first()->project->color ?? '#4f46e5'; @endphp
                     <div class="px-6 py-3 print:bg-gray-100 print:border-gray-300 border-b"
                          style="background-color: {{ $pColor }}15; border-color: {{ $pColor }}30;">
                         <h3 class="text-lg font-bold print:text-black flex items-center" style="color: {{ $pColor }};">
-                            <span class="mr-2" style="color: {{ $pColor }};">📁</span> {{ $projectName }}
+                            <span class="mr-2" style="color: {{ $pColor }};">📁</span> {{ $records->first()->project->display_name }}
                         </h3>
                     </div>
                     
@@ -92,7 +92,7 @@
                                 
                                 {{-- 紀錄內容 (Markdown 渲染) --}}
                                 <div class="prose max-w-none prose-sm prose-indigo prose-pre:bg-gray-800 prose-pre:text-gray-100 mt-3 print:prose-pre:bg-gray-100 dark:bg-gray-700 print:prose-pre:text-black print:prose-pre:border">
-                                    {!! Str::markdown($record->content, ['html_input' => 'escape']) !!}
+                                    {!! Str::markdown($record->content, ['html_input' => 'escape', 'allow_unsafe_links' => false]) !!}
                                 </div>
 
                                 {{-- 標籤 --}}

@@ -11,17 +11,18 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
                 <div>
                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">專案 *</label>
-                    <select name="project_id" required class="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 text-sm">
+                    <select name="project_id" id="record-project" required class="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 text-sm">
                         @foreach($projects as $p)
                             <option value="{{ $p->id }}" {{ old('project_id',$record->project_id)==$p->id?'selected':'' }}>
                                 {{ $p->display_name }}
                             </option>
                         @endforeach
                     </select>
+                    @error('project_id')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">模組</label>
-                    <select name="module_id" class="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 text-sm">
+                    <select name="module_id" id="record-module" class="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 text-sm">
                         <option value="">— 不指定 —</option>
                         @foreach($modules as $m)
                             <option value="{{ $m->id }}" {{ old('module_id',$record->module_id)==$m->id?'selected':'' }}>
@@ -29,6 +30,7 @@
                             </option>
                         @endforeach
                     </select>
+                    @error('module_id')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">類型 *</label>
@@ -70,8 +72,9 @@
                 {{-- Tags --}}
                 <div class="sm:col-span-2">
                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">標籤 (Tags)</label>
-                    <input type="text" name="tags_input" value="{{ old('tags_input', $tagsString ?? '') }}"
+                    <input type="text" name="tags_input" value="{{ is_string(old('tags_input', $tagsString)) ? old('tags_input', $tagsString) : '' }}"
                            class="w-full border border-gray-300 dark:border-gray-600 rounded px-3 py-2 text-sm" placeholder="API, 資安, 資料庫優化 (多個請用逗號分隔)">
+                    @error('tags_input')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
                 </div>
             </div>
 
@@ -95,6 +98,7 @@
             </div>
         </form>
     </div>
+    @include('records.partials.module-options')
 </x-records-layout>
 
 

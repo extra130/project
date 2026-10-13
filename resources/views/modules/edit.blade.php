@@ -24,6 +24,7 @@
                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">排序</label>
                 <input type="number" name="sort_order" value="{{ old('sort_order', $module->sort_order) }}"
                        class="w-24 border border-gray-300 dark:border-gray-600 rounded px-3 py-2 text-sm">
+                @error('sort_order')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
             </div>
 
             <div class="mb-6">

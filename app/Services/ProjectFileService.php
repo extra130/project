@@ -5,8 +5,10 @@ namespace App\Services;
 use App\Models\Project;
 use App\Models\ProjectFile;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Illuminate\Validation\ValidationException;
 
 class ProjectFileService
 {
@@ -17,13 +19,23 @@ class ProjectFileService
     {
         $maxSort = $project->files()->max('sort_order') ?? 0;
 
-        foreach ($files as $file) {
-            if (!$file instanceof UploadedFile || !$file->isValid()) {
-                continue;
-            }
+        $saved = [];
+        try {
+            DB::transaction(function () use ($project, $files, $uploadedBy, $maxSort, &$saved) {
+                foreach ($files as $file) {
+                    if (!$file instanceof UploadedFile || !$file->isValid()) {
+                        continue;
+                    }
 
-            $maxSort++;
-            $this->storeSingleFile($project, $file, $maxSort, $uploadedBy);
+                    $maxSort++;
+                    $saved[] = $this->storeSingleFile($project, $file, $maxSort, $uploadedBy);
+                }
+            });
+        } catch (\Throwable $e) {
+            foreach ($saved as $file) {
+                Storage::disk('local')->delete($file->storage_path);
+            }
+            throw $e;
         }
     }
 
@@ -41,21 +53,26 @@ class ProjectFileService
         
         $storagePath = "projects/{$datePath}/{$fileName}";
 
-        // Store file
-        Storage::disk('local')->putFileAs("projects/{$datePath}", $file, $fileName);
+        try {
+            if (Storage::disk('local')->putFileAs("projects/{$datePath}", $file, $fileName) === false) {
+                throw ValidationException::withMessages(['files' => '檔案儲存失敗，請稍後再試。']);
+            }
 
-        // Save DB record
-        return ProjectFile::create([
-            'project_id'    => $project->id,
-            'original_name' => $originalName,
-            'display_name'  => $originalName,
-            'storage_path'  => $storagePath,
-            'mime_type'     => $mimeType,
-            'extension'     => strtolower($extension),
-            'file_size'     => $fileSize,
-            'sort_order'    => $sortOrder,
-            'uploaded_by'   => $uploadedBy,
-        ]);
+            return ProjectFile::create([
+                'project_id'    => $project->id,
+                'original_name' => $originalName,
+                'display_name'  => $originalName,
+                'storage_path'  => $storagePath,
+                'mime_type'     => $mimeType,
+                'extension'     => strtolower($extension),
+                'file_size'     => $fileSize,
+                'sort_order'    => $sortOrder,
+                'uploaded_by'   => $uploadedBy,
+            ]);
+        } catch (\Throwable $e) {
+            Storage::disk('local')->delete($storagePath);
+            throw $e;
+        }
     }
 
     /**

@@ -1,0 +1,4 @@
+# 僅公開 public 目錄，避免以專案根目錄提供設定、原始碼及附件。
+Options -Indexes -MultiViews
+RewriteEngine On
+RewriteRule ^(?!public(?:/|$)) - [F,L]

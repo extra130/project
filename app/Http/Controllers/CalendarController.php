@@ -6,7 +6,9 @@ use App\Models\Record;
 use App\Models\Holiday;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Validator;
 
 class CalendarController extends Controller
 {
@@ -77,15 +79,28 @@ class CalendarController extends Controller
         $yearsToSync = [$year - 1, $year, $year + 1]; // Sync last, current, and next year
 
         $syncedCount = 0;
+        $failedYears = [];
 
         foreach ($yearsToSync as $y) {
             try {
                 $response = Http::timeout(10)->withHeaders(['User-Agent' => 'Mozilla/5.0'])
-                    ->get("https://cdn.jsdelivr.net/gh/ruyut/TaiwanCalendar/data/{$y}.json");
-                
-                if ($response->successful()) {
-                    $data = $response->json();
-                    
+                    ->get("https://cdn.jsdelivr.net/gh/ruyut/TaiwanCalendar/data/{$y}.json")
+                    ->throw();
+
+                $data = $response->json();
+                $validator = Validator::make(['days' => $data], [
+                    'days' => 'required|array',
+                    'days.*' => 'array',
+                    'days.*.date' => 'required|date',
+                    'days.*.isHoliday' => 'required|boolean',
+                    'days.*.description' => 'nullable|string|max:255',
+                ]);
+                if (!$response->successful() || $validator->fails()) {
+                    throw new \RuntimeException('國定假日資料格式不正確。');
+                }
+
+                $syncedCount += DB::transaction(function () use ($data) {
+                    $count = 0;
                     foreach ($data as $day) {
                         if ($day['isHoliday'] && !empty($day['description'])) {
                             Holiday::updateOrCreate(
@@ -95,13 +110,22 @@ class CalendarController extends Controller
                                     'is_holiday' => true,
                                 ]
                             );
-                            $syncedCount++;
+                            $count++;
                         }
                     }
-                }
+                    return $count;
+                });
             } catch (\Exception $e) {
-                continue;
+                $failedYears[] = $y;
             }
+        }
+
+        if ($failedYears) {
+            $message = count($failedYears) === count($yearsToSync)
+                ? '國定假日同步失敗，請稍後再試。'
+                : '國定假日僅部分同步，共更新 ' . $syncedCount . ' 筆資料；未完成年份：' . implode('、', $failedYears) . '。';
+
+            return redirect()->back()->with('error', $message);
         }
 
         return redirect()->back()->with('success', "國定假日同步完成！共更新 {$syncedCount} 筆資料。");

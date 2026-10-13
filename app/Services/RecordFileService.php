@@ -5,8 +5,10 @@ namespace App\Services;
 use App\Models\Record;
 use App\Models\RecordFile;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Illuminate\Validation\ValidationException;
 
 /**
  * RecordFileService
@@ -39,37 +41,49 @@ class RecordFileService
      */
     public function storeFiles(Record $record, array $files, int $uploadedBy): array
     {
-        $saved    = [];
         $sortBase = $record->files()->max('sort_order') ?? -1;
+        $paths = [];
 
-        foreach ($files as $index => $file) {
-            $extension   = $file->getClientOriginalExtension();
-            $uuid        = Str::uuid()->toString();
-            $yearMonth   = now()->format('Y/m');
-            $storagePath = self::ALLOWED_PREFIX . "{$yearMonth}/{$uuid}.{$extension}";
+        try {
+            return DB::transaction(function () use ($record, $files, $uploadedBy, $sortBase, &$paths) {
+                $saved = [];
+                foreach ($files as $index => $file) {
+                    $extension   = $file->getClientOriginalExtension();
+                    $uuid        = Str::uuid()->toString();
+                    $yearMonth   = now()->format('Y/m');
+                    $storagePath = self::ALLOWED_PREFIX . "{$yearMonth}/{$uuid}.{$extension}";
 
-            // Sanity-check before writing (defense in depth)
-            $this->assertWithinAllowedDirectory($storagePath);
+                    // Sanity-check before writing (defense in depth)
+                    $this->assertWithinAllowedDirectory($storagePath);
+                    $paths[] = "private/{$storagePath}";
 
-            Storage::disk('local')->put("private/{$storagePath}", $file->getContent());
+                    if (!Storage::disk('local')->put("private/{$storagePath}", $file->getContent())) {
+                        throw ValidationException::withMessages(['files' => '檔案儲存失敗，請稍後再試。']);
+                    }
 
-            $recordFile = RecordFile::create([
-                'record_id'     => $record->id,
-                'original_name' => $file->getClientOriginalName(),
-                'display_name'  => pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME),
-                'note'          => null,
-                'storage_path'  => $storagePath,
-                'mime_type'     => $file->getMimeType(),
-                'extension'     => $extension,
-                'file_size'     => $file->getSize(),
-                'sort_order'    => $sortBase + $index + 1,
-                'uploaded_by'   => $uploadedBy,
-            ]);
+                    $saved[] = RecordFile::create([
+                        'record_id'     => $record->id,
+                        'original_name' => $file->getClientOriginalName(),
+                        'display_name'  => pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME),
+                        'note'          => null,
+                        'storage_path'  => $storagePath,
+                        'mime_type'     => $file->getMimeType(),
+                        'extension'     => $extension,
+                        'file_size'     => $file->getSize(),
+                        'sort_order'    => $sortBase + $index + 1,
+                        'uploaded_by'   => $uploadedBy,
+                    ]);
+                }
 
-            $saved[] = $recordFile;
+                return $saved;
+            });
+        } catch (\Throwable $e) {
+            // DB 交易已回復，同時清除本批已寫入或未完整寫入的檔案。
+            foreach ($paths as $path) {
+                Storage::disk('local')->delete($path);
+            }
+            throw $e;
         }
-
-        return $saved;
     }
 
     // ----------------------------------------------------------------

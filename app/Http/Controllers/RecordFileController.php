@@ -29,9 +29,11 @@ class RecordFileController extends Controller
 
         $request->validate([
             'files'   => 'required|array',
-            'files.*' => ['file', function ($attribute, $value, $fail) {
+            'files.*' => ['bail', 'file', function ($attribute, $value, $fail) {
                 $ext = strtolower($value->getClientOriginalExtension());
-                if (in_array($ext, ['html', 'htm', 'svg', 'php', 'php5', 'phtml', 'exe', 'sh', 'bat', 'js'])) {
+                // 2026-10-13：依使用者要求，所有上傳入口允許 HTML（html、htm），其餘限制保留。
+                // if (in_array($ext, ['html', 'htm', 'svg', 'php', 'php5', 'phtml', 'exe', 'sh', 'bat', 'js'])) {
+                if (in_array($ext, ['svg', 'php', 'php5', 'phtml', 'exe', 'sh', 'bat', 'js'])) {
                     $fail('基於安全性考量，禁止上傳該類型的檔案。');
                 }
             }],
@@ -73,7 +75,11 @@ class RecordFileController extends Controller
             'sort_order'   => 'nullable|integer',
         ]);
 
-        $recordFile->update(array_filter($validated, fn($v) => $v !== null));
+        $recordFile->update(array_filter(
+            $validated,
+            fn($value, $key) => $key === 'note' || $value !== null,
+            ARRAY_FILTER_USE_BOTH
+        ));
 
         return redirect()->route('records.show', $recordFile->record_id)
             ->with('success', '附件資訊已更新。');
@@ -138,6 +144,9 @@ class RecordFileController extends Controller
         
         return response()->file($absolutePath, [
             'Content-Type' => $mime,
+            // 保留 HTML 互動腳本，但不授予系統的同源權限。
+            'Content-Security-Policy' => "sandbox allow-scripts; base-uri 'none'; form-action 'none'; connect-src 'none'; object-src 'none'",
+            'X-Content-Type-Options' => 'nosniff',
             'Content-Disposition' => 'inline; filename="' . $recordFile->display_name . '.' . $ext . '"'
         ]);
     }
